@@ -12,8 +12,9 @@ const Ctx = createContext<RealtimeCtx>({ connected: false, subscribe: () => () =
 
 function wsUrl() {
   if (process.env.NEXT_PUBLIC_WS_URL) return process.env.NEXT_PUBLIC_WS_URL;
-  const { protocol, hostname } = window.location;
-  return `${protocol === 'https:' ? 'wss' : 'ws'}://${hostname}:4000/ws`;
+  // Same origin by default: Next.js proxies /ws to the API, so phones and previews need one address only.
+  const { protocol, host } = window.location;
+  return `${protocol === 'https:' ? 'wss' : 'ws'}://${host}/ws`;
 }
 
 /** Single shared WebSocket with topic subscriptions and automatic reconnects. */
