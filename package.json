@@ -1,0 +1,28 @@
+{
+  "name": "voltway",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Voltway — EV charging discovery, smart charging intelligence and EV route planning platform",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=@voltway/api & npm run dev --workspace=@voltway/web",
+    "dev:api": "npm run dev --workspace=@voltway/api",
+    "dev:web": "npm run dev --workspace=@voltway/web",
+    "db:migrate": "npm run db:migrate --workspace=@voltway/api",
+    "db:seed": "npm run db:seed --workspace=@voltway/api",
+    "db:reset": "npm run db:reset --workspace=@voltway/api",
+    "test": "npm run test --workspace=@voltway/shared && npm run test --workspace=@voltway/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build --workspace=@voltway/web"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.12",
+    "typescript": "^5.9.3"
+  }
+}
