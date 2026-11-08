@@ -127,7 +127,7 @@ export async function adminRoutes(app: FastifyInstance) {
     if (qy.q) { params.push(`%${qy.q}%`); where.push(`(s.name ILIKE $${params.length} OR s.city ILIKE $${params.length} OR c.name ILIKE $${params.length})`); }
     return {
       stations: await q(
-        `SELECT s.id, s.name, s.city, s.address, s.listing_status, s.rejection_reason, s.created_at, s.info_updated_at, s.integration_type, s.is_demo,
+        `SELECT s.id, s.name, s.city, s.address, s.listing_status, s.rejection_reason, s.created_at, s.info_updated_at, s.integration_type, s.is_demo, s.coming_soon, s.data_source, s.location_type,
                 ST_Y(s.location::geometry) lat, ST_X(s.location::geometry) lng, c.name company_name, c.verification_status company_status,
                 (SELECT COUNT(*)::int FROM ports p WHERE p.station_id = s.id) ports, cardinality(s.images) images, s.tariff_id IS NOT NULL has_tariff
            FROM stations s JOIN companies c ON c.id = s.company_id ${where.length ? 'WHERE ' + where.join(' AND ') : ''}

@@ -8,6 +8,7 @@ import {
   normalizeTariff,
   rateAt,
   summarizePorts,
+  reliabilityScore,
   type ConnectorType,
   type DataSource,
   type PortStatus,
@@ -40,7 +41,9 @@ export const STATION_SELECT = `
          t.config AS tariff_config, t.name AS tariff_name, t.updated_at AS tariff_updated_at,
          COALESCE(r.avg_rating, NULL) AS avg_rating, COALESCE(r.review_count, 0) AS review_count,
          COALESCE(p.ports, '[]'::json) AS ports,
-         COALESCE(st.avg_session_min, 45) AS avg_session_min
+         COALESCE(st.avg_session_min, 45) AS avg_session_min,
+         ck.w_ok, ck.w_wait, ck.w_fail, ck.n_checkins, ck.last_checkin_at, ck.last_outcome, ck.last_ok_at,
+         c.is_community, (SELECT COUNT(*)::int FROM station_photos ph WHERE ph.station_id = s.id AND ph.status = 'visible') AS photo_count
     FROM stations s
     JOIN companies c ON c.id = s.company_id
     LEFT JOIN tariffs t ON t.id = s.tariff_id
@@ -60,7 +63,17 @@ export const STATION_SELECT = `
     LEFT JOIN LATERAL (
       SELECT AVG(EXTRACT(EPOCH FROM (ended_at - started_at)) / 60)::float AS avg_session_min
         FROM charging_sessions WHERE station_id = s.id AND ended_at IS NOT NULL AND started_at > now() - interval '60 days'
-    ) st ON true`;
+    ) st ON true
+    LEFT JOIN LATERAL (
+      SELECT COALESCE(SUM(EXP(-EXTRACT(EPOCH FROM now() - created_at) / 86400 / 130)) FILTER (WHERE outcome IN ('charged','charging_now')), 0)::float AS w_ok,
+             COALESCE(SUM(EXP(-EXTRACT(EPOCH FROM now() - created_at) / 86400 / 130)) FILTER (WHERE outcome = 'waiting'), 0)::float AS w_wait,
+             COALESCE(SUM(EXP(-EXTRACT(EPOCH FROM now() - created_at) / 86400 / 130)) FILTER (WHERE outcome = 'could_not_charge'), 0)::float AS w_fail,
+             COUNT(*) FILTER (WHERE outcome <> 'comment')::int AS n_checkins,
+             MAX(created_at) AS last_checkin_at,
+             MAX(created_at) FILTER (WHERE outcome IN ('charged','charging_now')) AS last_ok_at,
+             (ARRAY_AGG(outcome ORDER BY created_at DESC))[1] AS last_outcome
+        FROM checkins WHERE station_id = s.id AND status = 'visible' AND created_at > now() - interval '365 days'
+    ) ck ON true`;
 
 export interface ShapeContext {
   origin?: { lat: number; lng: number } | null;
@@ -157,6 +170,18 @@ export function shapeStation(row: any, ctx: ShapeContext = {}) {
     reservationFee: row.reservation_fee,
     integration: { type: row.integration_type, ref: row.integration_ref, supportsRemoteStart: ['ocpp', 'simulator'].includes(row.integration_type) },
     isDemo: row.is_demo,
+    comingSoon: row.coming_soon,
+    locationType: row.location_type,
+    hostNotes: row.host_notes,
+    community: !!row.is_community,
+    photoCount: row.photo_count ?? 0,
+    reliability: {
+      score: reliabilityScore({ weightedSuccess: row.w_ok ?? 0, weightedWaiting: row.w_wait ?? 0, weightedFailure: row.w_fail ?? 0, checkinCount: row.n_checkins ?? 0, rating: row.avg_rating }),
+      checkins: row.n_checkins ?? 0,
+      lastCheckinAt: row.last_checkin_at ?? null,
+      lastOutcome: row.last_outcome ?? null,
+      lastSuccessAt: row.last_ok_at ?? null,
+    },
     infoUpdatedAt: row.info_updated_at,
     rating: row.avg_rating,
     reviewCount: row.review_count,
@@ -232,6 +257,9 @@ export interface StationFilters {
   networks?: string[];
   text?: string;
   city?: string;
+  minScore?: number;
+  includeComingSoon?: boolean;
+  locationTypes?: string[];
 }
 
 export async function listStations(opts: {
@@ -269,6 +297,8 @@ export async function listStations(opts: {
   if (f.amenities?.length) where.push(`s.amenities @> ${p(f.amenities)}::text[]`);
   if (f.networks?.length) where.push(`(c.slug = ANY(${p(f.networks)}) OR c.id::text = ANY(${p(f.networks)}))`);
   if (f.is24_7) where.push('s.is_24_7');
+  if (!f.includeComingSoon) where.push('NOT s.coming_soon');
+  if (f.locationTypes?.length) where.push(`s.location_type = ANY(${p(f.locationTypes)})`);
   if (f.city) where.push(`s.city ILIKE ${p(f.city)}`);
   if (f.text) {
     const t = p(`%${f.text}%`);
@@ -286,6 +316,7 @@ export async function listStations(opts: {
   if (f.maxPricePerKwh) out = out.filter((s) => s.pricing && s.pricing.currentRate <= f.maxPricePerKwh!);
   if (f.availableOnly) out = out.filter((s) => s.compatibleAvailable > 0);
   if (f.openNow) out = out.filter((s) => s.openNow.open !== false);
+  if (f.minScore) out = out.filter((s) => s.reliability.score != null && s.reliability.score >= f.minScore!);
   return out;
 }
 

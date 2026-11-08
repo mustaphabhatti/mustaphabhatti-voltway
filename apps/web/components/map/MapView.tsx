@@ -25,10 +25,12 @@ const BOLT = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7
 
 function stationIcon(s: Station, selected: boolean) {
   const tone = stationTone(s);
-  const label = s.maxPowerKw >= 1 ? `${Math.round(s.maxPowerKw)}` : '';
+  const label = s.comingSoon ? 'Soon' : s.maxPowerKw >= 1 ? `${Math.round(s.maxPowerKw)}` : '';
+  const score = s.reliability?.score;
+  const scoreHtml = score != null && !s.comingSoon ? `<span class="vw-score">${score.toFixed(1)}</span>` : '';
   return L.divIcon({
     className: 'vw-marker',
-    html: `<div class="vw-pin${selected ? ' selected' : ''}" style="background:${tone.hex}">${BOLT}<span>${label}</span></div>`,
+    html: `<div class="vw-pin${selected ? ' selected' : ''}${s.comingSoon ? ' soon' : ''}" style="background:${s.comingSoon ? '#64748b' : tone.hex}">${BOLT}<span>${label}</span>${scoreHtml}</div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
   });
@@ -123,7 +125,7 @@ export default function MapView({
       {stations.map((s) => {
         const sel = s.id === selectedId;
         const tone = stationTone(s);
-        const key = `${s.id}:${sel}:${tone.hex}:${s.maxPowerKw}`;
+        const key = `${s.id}:${sel}:${tone.hex}:${s.maxPowerKw}:${s.reliability?.score}`;
         let icon = icons.current.get(key);
         if (!icon) {
           icon = stationIcon(s, sel);

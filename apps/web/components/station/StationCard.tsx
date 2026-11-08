@@ -6,6 +6,7 @@ import type { Station } from '@/lib/types';
 import { stationTone } from '@/lib/stationColor';
 import { cn } from '@/lib/format';
 import { EstimatedTag, SourceBadge } from './badges';
+import { ReliabilityBadge } from './community';
 
 export function connectorGroups(s: Station) {
   const groups = new Map<string, { type: ConnectorType; current: 'AC' | 'DC'; kw: number; total: number; available: number; compatible: boolean }>();
@@ -62,7 +63,11 @@ export function StationCard({ s, selected, onClick, href }: { s: Station; select
               </span>
             ))}
           </div>
-          <div className="mt-2.5"><SourceBadge source={s.status.source} updatedAt={s.status.updatedAt} stale={s.status.stale} compact /></div>
+          <div className="mt-2.5 flex flex-wrap items-center gap-2">
+            {s.comingSoon ? <span className="text-[11.5px] font-medium rounded-full px-2 py-0.5 bg-surface-2 text-muted border border-dashed border-border">Coming soon</span> : <ReliabilityBadge score={s.reliability.score} checkins={s.reliability.checkins} />}
+            {!s.comingSoon && <SourceBadge source={s.status.source} updatedAt={s.status.updatedAt} stale={s.status.stale} compact />}
+            {s.community && <span className="text-[11px] text-muted">Added by drivers</span>}
+          </div>
         </div>
       </div>
     </div>

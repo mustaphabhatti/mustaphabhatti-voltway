@@ -82,3 +82,67 @@ export function ageMinutes(iso: string | Date | null | undefined, now = Date.now
 
 /** Status information older than this is shown as "last reported" rather than current. */
 export const STALE_STATUS_MINUTES = { live: 15, simulated: 180, operator_reported: 24 * 60, user_reported: 180 } as const;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Community reliability score (0–10) from driver check-ins and ratings.
+// Check-ins are weighted by recency (half-life ~3 months). A Bayesian prior keeps
+// stations with few check-ins near the middle; fewer than 3 check-ins in a year
+// returns null ("not enough data").
+// ─────────────────────────────────────────────────────────────────────────────
+export interface ReliabilityInput {
+  weightedSuccess: number;
+  weightedWaiting: number;
+  weightedFailure: number;
+  checkinCount: number;
+  rating?: number | null;
+}
+
+export function reliabilityScore(i: ReliabilityInput): number | null {
+  if (i.checkinCount < 3) return null;
+  const priorSuccess = 1.5;
+  const priorTotal = 2;
+  const ok = i.weightedSuccess + 0.6 * i.weightedWaiting + priorSuccess;
+  const total = i.weightedSuccess + i.weightedWaiting + i.weightedFailure + priorTotal;
+  let score = (ok / total) * 10;
+  if (i.rating != null) score = score * 0.85 + (i.rating / 5) * 10 * 0.15;
+  return Math.round(Math.max(0, Math.min(10, score)) * 10) / 10;
+}
+
+export function reliabilityLabel(score: number | null) {
+  if (score == null) return 'Not enough check-ins';
+  if (score >= 8.5) return 'Very reliable';
+  if (score >= 7) return 'Reliable';
+  if (score >= 5) return 'Mixed reports';
+  return 'Often has problems';
+}
+
+export const CHECKIN_OUTCOMES = {
+  charged: 'Charged successfully',
+  charging_now: 'Charging now',
+  waiting: 'Waiting for a charger',
+  could_not_charge: "Couldn't charge",
+  comment: 'Left a comment',
+} as const;
+export type CheckinOutcome = keyof typeof CHECKIN_OUTCOMES;
+
+export const CHECKIN_PROBLEMS = {
+  broken: 'Charger broken / error',
+  occupied: 'All chargers occupied',
+  blocked_by_ice: 'Bay blocked by a non-EV',
+  no_power: 'No electricity',
+  payment_failed: 'Payment / app failed',
+  slow: 'Very slow charging',
+  access: "Couldn't access the site",
+  other: 'Other problem',
+} as const;
+export type CheckinProblem = keyof typeof CHECKIN_PROBLEMS;
+
+export const LOCATION_TYPES = {
+  public: 'Public station',
+  destination: 'Destination (mall, hotel, restaurant)',
+  dealership: 'Car dealership',
+  workplace: 'Workplace',
+  residential: 'Home charger (shared by host)',
+  highway: 'Highway / motorway',
+} as const;
+export type LocationType = keyof typeof LOCATION_TYPES;

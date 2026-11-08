@@ -46,6 +46,12 @@ export interface Station {
   reservationFee: number;
   integration: { type: string; ref: string | null; supportsRemoteStart: boolean };
   isDemo: boolean;
+  comingSoon: boolean;
+  locationType: string;
+  hostNotes: string | null;
+  community: boolean;
+  photoCount: number;
+  reliability: { score: number | null; checkins: number; lastCheckinAt: string | null; lastOutcome: string | null; lastSuccessAt: string | null };
   infoUpdatedAt: string;
   rating: number | null;
   reviewCount: number;

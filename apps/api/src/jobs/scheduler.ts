@@ -44,6 +44,13 @@ async function reservationJobs() {
   );
   void ended;
   await q(`DELETE FROM station_watches WHERE expires_at < now()`);
+  // "Charging now" check-ins expire: free the port again (still labelled as a driver report).
+  const done = await q<any>(
+    `UPDATE checkins c SET charging_until = NULL FROM ports p, stations s
+      WHERE p.id = c.port_id AND s.id = p.station_id AND c.charging_until IS NOT NULL AND c.charging_until < now()
+      RETURNING c.port_id, p.status, p.status_source, s.integration_type`,
+  );
+  for (const d of done) if (d.integration_type === 'none' && d.status === 'occupied' && d.status_source === 'user_reported') await setPortStatus(d.port_id, 'available', 'user_reported');
 }
 
 async function peakWarnings() {

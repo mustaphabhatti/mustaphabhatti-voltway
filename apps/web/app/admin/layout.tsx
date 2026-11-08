@@ -1,5 +1,5 @@
 'use client';
-import { BarChart3, Building2, ClipboardCheck, FileClock, Gauge, LayoutDashboard, MapPinned, MessageSquareWarning, Plug, Settings, Users, LifeBuoy } from 'lucide-react';
+import { Image as ImageIcon, BarChart3, Building2, ClipboardCheck, FileClock, Gauge, LayoutDashboard, MapPinned, MessageSquareWarning, Plug, Settings, Users, LifeBuoy } from 'lucide-react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { RequireRole } from '@/components/layout/RequireRole';
 
@@ -10,6 +10,7 @@ const NAV = [
   { href: '/admin/stations', label: 'Station listings', icon: MapPinned },
   { href: '/admin/quality', label: 'Data quality', icon: ClipboardCheck },
   { href: '/admin/reviews', label: 'Reviews', icon: MessageSquareWarning },
+  { href: '/admin/photos', label: 'Community photos', icon: ImageIcon },
   { href: '/admin/complaints', label: 'Complaints', icon: LifeBuoy },
   { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/admin/integrations', label: 'Integrations', icon: Plug },

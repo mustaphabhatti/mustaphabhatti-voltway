@@ -1,6 +1,6 @@
 'use client';
 import { SlidersHorizontal, X } from 'lucide-react';
-import { AMENITY_LABELS, CONNECTOR_LABELS, type Amenity, type ConnectorType } from '@voltway/shared';
+import { AMENITY_LABELS, CONNECTOR_LABELS, LOCATION_TYPES, type Amenity, type ConnectorType, type LocationType } from '@voltway/shared';
 import { Button, Chip, Field, Select, Slider, Toggle } from '@/components/ui';
 import { useFetch } from '@/lib/hooks';
 
@@ -15,15 +15,18 @@ export interface FilterState {
   amenities: string[];
   networks: string[];
   radiusKm: number;
-  sort: 'distance' | 'power' | 'price' | 'availability' | 'rating';
+  minScore: number;
+  comingSoon: boolean;
+  locationTypes: string[];
+  sort: 'distance' | 'power' | 'price' | 'availability' | 'rating' | 'reliability';
 }
 
 export const DEFAULT_FILTERS: FilterState = {
-  connectors: [], currentTypes: [], minPowerKw: 0, maxPrice: null, available: false, openNow: false, is247: false, amenities: [], networks: [], radiusKm: 25, sort: 'distance',
+  connectors: [], currentTypes: [], minPowerKw: 0, maxPrice: null, available: false, openNow: false, is247: false, amenities: [], networks: [], radiusKm: 25, minScore: 0, comingSoon: false, locationTypes: [], sort: 'distance',
 };
 
 export function activeFilterCount(f: FilterState) {
-  return f.connectors.length + f.currentTypes.length + (f.minPowerKw ? 1 : 0) + (f.maxPrice ? 1 : 0) + (f.available ? 1 : 0) + (f.openNow ? 1 : 0) + (f.is247 ? 1 : 0) + f.amenities.length + f.networks.length;
+  return f.connectors.length + f.currentTypes.length + (f.minPowerKw ? 1 : 0) + (f.maxPrice ? 1 : 0) + (f.available ? 1 : 0) + (f.openNow ? 1 : 0) + (f.is247 ? 1 : 0) + f.amenities.length + f.networks.length + (f.minScore ? 1 : 0) + (f.comingSoon ? 1 : 0) + f.locationTypes.length;
 }
 
 const toggle = <T,>(arr: T[], v: T) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
@@ -41,6 +44,7 @@ export function QuickFilters({ f, set, onOpen, vehicleConnectors }: { f: FilterS
       <Chip active={f.available} onClick={() => set({ ...f, available: !f.available })}>Available now</Chip>
       <Chip active={f.currentTypes.includes('DC')} onClick={() => set({ ...f, currentTypes: toggle(f.currentTypes, 'DC') })}>DC fast</Chip>
       <Chip active={f.minPowerKw >= 100} onClick={() => set({ ...f, minPowerKw: f.minPowerKw >= 100 ? 0 : 100 })}>100 kW+</Chip>
+      <Chip active={f.minScore >= 7} onClick={() => set({ ...f, minScore: f.minScore >= 7 ? 0 : 7 })}>Reliable 7+</Chip>
       <Chip active={f.openNow} onClick={() => set({ ...f, openNow: !f.openNow })}>Open now</Chip>
       <Chip active={f.is247} onClick={() => set({ ...f, is247: !f.is247 })}>24/7</Chip>
     </div>
@@ -89,8 +93,18 @@ export function FilterPanel({ f, set, onClose, resultCount, showRadius }: { f: F
             </Select>
           </Field>
         </section>
+        <section>
+          <h3 className="text-[13px] font-semibold mb-2">Minimum reliability score</h3>
+          <div className="flex flex-wrap gap-2">{[0, 5, 7, 8.5].map((n) => <Chip key={n} active={f.minScore === n} onClick={() => set({ ...f, minScore: n })}>{n ? `${n}+` : 'Any'}</Chip>)}</div>
+          <p className="text-xs text-muted mt-1.5">Based on driver check-ins. Stations without enough check-ins are hidden when a minimum is set.</p>
+        </section>
+        <section>
+          <h3 className="text-[13px] font-semibold mb-2">Location type</h3>
+          <div className="flex flex-wrap gap-2">{(Object.keys(LOCATION_TYPES) as LocationType[]).map((l) => <Chip key={l} active={f.locationTypes.includes(l)} onClick={() => set({ ...f, locationTypes: toggle(f.locationTypes, l) })}>{LOCATION_TYPES[l]}</Chip>)}</div>
+        </section>
         <section className="space-y-3">
           <h3 className="text-[13px] font-semibold">Availability & hours</h3>
+          <Toggle checked={f.comingSoon} onChange={(v) => set({ ...f, comingSoon: v })} label="Show coming-soon stations" description="Planned or under-construction locations reported by drivers" />
           <Toggle checked={f.available} onChange={(v) => set({ ...f, available: v })} label="Has a free compatible port" description="Based on the latest live, demo or reported status" />
           <Toggle checked={f.openNow} onChange={(v) => set({ ...f, openNow: v })} label="Open now" />
           <Toggle checked={f.is247} onChange={(v) => set({ ...f, is247: v })} label="Open 24/7" />
@@ -121,6 +135,7 @@ export function FilterPanel({ f, set, onClose, resultCount, showRadius }: { f: F
               <option value="power">Charging speed</option>
               <option value="price">Price (now)</option>
               <option value="rating">Rating</option>
+              <option value="reliability">Reliability score</option>
             </Select>
           </Field>
         </section>

@@ -313,6 +313,54 @@ async function main() {
      ($3, NULL, $4, 'wrong_info', NULL, 'GB/T connector listed but only CCS2 available now.')`,
     [byName('VoltGrid Bahria Town'), drivers[7], byName('AmpWay GT Road Jhelum'), drivers[8]]);
 
+  // ── Community: check-ins, community company, driver-submitted & coming-soon stations ──
+  const communityCo = (await pool.query(
+    `INSERT INTO companies(name, slug, legal_name, email, country, brand_color, description, verification_status, verified_at, is_community, is_demo)
+     VALUES ('Voltway Community', 'community', 'Voltway', 'community@voltway.example', 'PK', '#64748b', 'Stations added by Voltway drivers.', 'verified', now(), true, true) RETURNING id`)).rows[0].id;
+  const CHECKIN_COMMENTS: Record<string, string[]> = {
+    charged: ['Quick and easy, no issues.', 'Worked first time with the app.', 'Got close to full rated power until ~60%.', 'Smooth session, café nearby while waiting.', 'All good, bays were clean.', ''],
+    charging_now: ['Charging now, should be done in 30 min.', 'Plugged in on the fast charger.', ''],
+    waiting: ['Both CCS bays taken, waiting ~15 min.', 'Queue of two cars ahead of me.', ''],
+    could_not_charge: ['Charger showed an error and would not start.', 'Bay blocked by a petrol car.', 'No electricity at the site.', 'Payment kept failing in the app.'],
+  };
+  const PROBLEM_FOR: Record<string, string> = { 'Charger showed an error and would not start.': 'broken', 'Bay blocked by a petrol car.': 'blocked_by_ice', 'No electricity at the site.': 'no_power', 'Payment kept failing in the app.': 'payment_failed' };
+  const checkinRows: unknown[][] = [];
+  for (const st of stationRows.filter((x) => (x.seed.listing ?? 'approved') === 'approved')) {
+    const failRate = st.seed.scenario === 'no_power' ? 0.45 : st.seed.scenario === 'unknown' ? 0.35 : st.seed.scenario === 'stale' ? 0.25 : between(0.03, 0.14);
+    const n = st.seed.scenario === 'unknown' ? 2 : Math.floor(between(5, 18));
+    for (let i = 0; i < n; i++) {
+      const dv = pick(driverVehicles.slice(1));
+      const r = rnd();
+      const outcome = r < failRate ? 'could_not_charge' : r < failRate + 0.1 ? 'waiting' : 'charged';
+      const comment = pick(CHECKIN_COMMENTS[outcome]);
+      const port = pick(st.ports.filter((p) => (dv.model.connectors as string[]).includes(p.type))) ?? null;
+      const kw = outcome === 'charged' && port ? Math.round(Math.min(port.kw, port.current === 'DC' ? dv.model.max_dc_kw : dv.model.max_ac_kw) * between(0.55, 0.92)) : null;
+      checkinRows.push([st.id, port?.id ?? null, dv.user, `${dv.model.brand} ${dv.model.model}`, outcome,
+        outcome === 'could_not_charge' ? PROBLEM_FOR[comment] ?? 'other' : null, kw, outcome === 'charged' ? Math.round(between(15, 70)) : null, comment,
+        new Date(now - between(0.05, 90) * 86400_000)]);
+    }
+  }
+  // A recent "charging now" on Gulberg and a fresh success to show live community activity
+  checkinRows.push([gulberg.id, gulberg.ports[2].id, drivers[9], 'Kia EV6', 'charged', null, 112, 24, 'Fast session, 18→80% in 24 minutes.', new Date(now - 40 * 60_000)]);
+  await insertMany('checkins', ['station_id', 'port_id', 'user_id', 'vehicle_label', 'outcome', 'problem', 'kw_observed', 'duration_min', 'comment', 'created_at'], checkinRows);
+  // Demo driver's own check-ins
+  await insertMany('checkins', ['station_id', 'port_id', 'user_id', 'vehicle_label', 'outcome', 'problem', 'kw_observed', 'duration_min', 'comment', 'created_at'], [
+    [gulberg.id, gulberg.ports[0].id, driverId, 'Hyundai Ioniq 5', 'charged', null, 165, 22, 'Great speeds on HPC-1.', new Date(now - 9 * 86400_000)],
+    [byName('VoltGrid Thokar Niaz Baig'), null, driverId, 'Hyundai Ioniq 5', 'charged', null, 140, 20, 'Topped up before the motorway.', new Date(now - 21 * 86400_000)],
+    [byName('AmpWay Bhera Service Area'), null, driverId, 'Hyundai Ioniq 5', 'waiting', null, null, null, 'Short queue on Friday evening.', new Date(now - 33 * 86400_000)],
+  ]);
+  // Community-submitted station awaiting review + an approved "coming soon" listing
+  await pool.query(
+    `INSERT INTO stations(company_id, name, description, address, city, country, location, timezone, listing_status, submitted_by, data_source, location_type, host_notes, is_demo, amenities)
+     VALUES ($1, 'Hotel One Charging Bay', 'Added by the Voltway driver community.', 'Main Boulevard, Gulberg II', 'Lahore', 'PK', ST_SetSRID(ST_MakePoint(74.3405, 31.5265),4326)::geography,
+             'Asia/Karachi', 'pending', $2, 'community', 'destination', 'Price: free for hotel guests', true, '{restaurant,parking}')`, [communityCo, drivers[11]]);
+  const pend = await pool.query(`SELECT id FROM stations WHERE name = 'Hotel One Charging Bay'`);
+  await pool.query(`INSERT INTO ports(station_id, label, connector_type, current_type, max_power_kw, status, status_source, status_updated_at) VALUES ($1,'AC-1','Type2','AC',11,'unknown','user_reported',now())`, [pend.rows[0].id]);
+  await pool.query(
+    `INSERT INTO stations(company_id, name, description, address, city, country, location, timezone, listing_status, submitted_by, data_source, location_type, coming_soon, is_demo)
+     VALUES ($1, 'Lahore Ring Road Supercharging Plaza (coming soon)', 'Planned 12-bay high-power plaza reported by drivers. Expected to open next year.', 'Ring Road, near Niazi Chowk', 'Lahore', 'PK',
+             ST_SetSRID(ST_MakePoint(74.3080, 31.6050),4326)::geography, 'Asia/Karachi', 'approved', $2, 'community', 'highway', true, true)`, [communityCo, drivers[12]]);
+
   // ── Gazetteer & road graph ──
   await insertMany('places', ['name', 'kind', 'city', 'country', 'location'],
     PLACES.map(([name, kind, city, country, lat, lng]) => [name, kind, city, country, `SRID=4326;POINT(${lng} ${lat})`]));

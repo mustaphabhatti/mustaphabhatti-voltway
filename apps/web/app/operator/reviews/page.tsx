@@ -11,15 +11,20 @@ import { Stars } from '@/components/station/Reviews';
 export default function OperatorReviews() {
   const toast = useToast();
   const { data, error, loading, reload } = useFetch<any>('/operator/reviews');
-  const [filter, setFilter] = useState<'all' | 'unanswered' | 'low'>('all');
+  const [filter, setFilter] = useState<'all' | 'unanswered' | 'low' | 'checkins'>('all');
+  const checkins = useFetch<any>(filter === 'checkins' ? '/operator/checkins' : null, [filter]);
   const [reply, setReply] = useState<Record<string, string>>({});
   const list = (data?.reviews ?? []).filter((r: any) => filter === 'all' || (filter === 'unanswered' ? !r.operator_reply : r.rating <= 2));
   const avg = data?.reviews.length ? data.reviews.reduce((a: number, r: any) => a + r.rating, 0) / data.reviews.length : 0;
   return (
     <>
       <PageHeader title="Reviews" subtitle={data ? `${data.reviews.length} reviews · average ${avg.toFixed(2)} ★` : undefined} />
-      <Segmented value={filter} onChange={setFilter} className="mb-4" options={[{ value: 'all', label: 'All' }, { value: 'unanswered', label: 'Needs reply' }, { value: 'low', label: '1–2 stars' }]} />
-      {error ? <ErrorState error={error} onRetry={reload} /> : loading ? <SkeletonList /> : !list.length ? <EmptyState icon={<MessageSquare className="size-6" />} title="Nothing here" /> : (
+      <Segmented value={filter} onChange={setFilter} className="mb-4" options={[{ value: 'all', label: 'All' }, { value: 'unanswered', label: 'Needs reply' }, { value: 'low', label: '1–2 stars' }, { value: 'checkins', label: 'Driver check-ins' }]} />
+      {filter === 'checkins' ? (checkins.loading || !checkins.data ? <SkeletonList /> : (
+        <Card className="divide-y divide-border">{checkins.data.checkins.map((c: any) => (
+          <div key={c.id} className="p-4 text-sm flex flex-wrap gap-x-3 gap-y-1 items-baseline"><Badge tone={c.outcome === 'could_not_charge' ? 'red' : c.outcome === 'waiting' ? 'amber' : c.outcome === 'comment' ? 'neutral' : 'green'}>{c.outcome.replace(/_/g, ' ')}</Badge>{c.problem && <span className="text-danger">{c.problem.replace(/_/g, ' ')}</span>}<span className="font-medium">{c.station_name}</span>{c.port_label && <span className="text-muted">{c.port_label}</span>}<span className="text-muted">{c.author} · {timeAgo(c.created_at)}</span>{c.comment && <p className="w-full text-muted">{c.comment}</p>}</div>
+        ))}</Card>
+      )) : error ? <ErrorState error={error} onRetry={reload} /> : loading ? <SkeletonList /> : !list.length ? <EmptyState icon={<MessageSquare className="size-6" />} title="Nothing here" /> : (
         <div className="space-y-3">
           {list.map((r: any) => (
             <Card key={r.id} className="p-4">

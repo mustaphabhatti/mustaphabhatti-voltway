@@ -35,7 +35,7 @@ function Listings() {
             <tbody>{data.stations.map((s: any) => (
               <tr key={s.id}>
                 <td><Link href={`/stations/${s.id}`} target="_blank" className="font-medium hover:underline inline-flex items-center gap-1">{s.name}<ExternalLink className="size-3" /></Link><div className="text-xs text-muted">{s.address}, {s.city} · {s.lat.toFixed(4)}, {s.lng.toFixed(4)}</div></td>
-                <td>{s.company_name}<div><Badge tone={s.company_status === 'verified' ? 'green' : 'amber'}>{s.company_status}</Badge></div></td>
+                <td>{s.company_name}{s.data_source === 'community' && <Badge tone="violet" className="ml-1">driver submitted</Badge>}{s.coming_soon && <Badge className="ml-1">coming soon</Badge>}<div><Badge tone={s.company_status === 'verified' ? 'green' : 'amber'}>{s.company_status}</Badge></div></td>
                 <td className="text-xs space-y-0.5">
                   <div className={s.ports ? 'text-accent' : 'text-danger'}>{s.ports ? `✓ ${s.ports} ports` : '✗ no ports'}</div>
                   <div className={s.has_tariff ? 'text-accent' : 'text-warning'}>{s.has_tariff ? '✓ pricing' : '! no pricing'}</div>
@@ -44,7 +44,7 @@ function Listings() {
                 <td><Badge tone={LISTING_TONE[s.listing_status]}>{s.listing_status}</Badge>{s.rejection_reason && <div className="text-xs text-muted mt-1 max-w-48">{s.rejection_reason}</div>}</td>
                 <td className="text-muted whitespace-nowrap">{timeAgo(s.created_at)}</td>
                 <td className="whitespace-nowrap">
-                  {s.listing_status !== 'approved' && <Button size="sm" onClick={() => decide(s.id, 'approved')} disabled={!s.ports}><Check className="size-4" />Approve</Button>}
+                  {s.listing_status !== 'approved' && <Button size="sm" onClick={() => decide(s.id, 'approved')} disabled={!s.ports && !s.coming_soon}><Check className="size-4" />Approve</Button>}
                   {s.listing_status === 'pending' && <Button size="sm" variant="ghost" onClick={() => setReject({ s, decision: 'rejected', reason: '' })}><X className="size-4" />Reject</Button>}
                   {s.listing_status === 'approved' && <Button size="sm" variant="ghost" className="text-danger" onClick={() => setReject({ s, decision: 'suspended', reason: '' })}>Suspend</Button>}
                 </td>

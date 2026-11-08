@@ -30,7 +30,10 @@ const listQuery = z.object({
   q: z.string().trim().max(100).optional(),
   city: z.string().trim().max(80).optional(),
   vehicleId: z.string().uuid().optional(),
-  sort: z.enum(['distance', 'power', 'price', 'availability', 'rating']).optional(),
+  sort: z.enum(['distance', 'power', 'price', 'availability', 'rating', 'reliability']).optional(),
+  minScore: z.coerce.number().min(0).max(10).optional(),
+  comingSoon: z.coerce.boolean().optional(),
+  locationTypes: zCsv,
   limit: z.coerce.number().min(1).max(500).optional(),
 });
 
@@ -67,6 +70,7 @@ export async function stationRoutes(app: FastifyInstance) {
         connectors: qy.connectors as ConnectorType[], currentTypes: qy.currentTypes as ('AC' | 'DC')[], minPowerKw: qy.minPowerKw,
         maxPricePerKwh: qy.maxPrice, availableOnly: qy.available, openNow: qy.openNow, is24_7: qy.is247,
         amenities: qy.amenities, networks: qy.networks, text: qy.q, city: qy.city,
+        minScore: qy.minScore, includeComingSoon: qy.comingSoon, locationTypes: qy.locationTypes,
       },
     });
     const sorters: Record<string, (a: any, b: any) => number> = {
@@ -74,6 +78,7 @@ export async function stationRoutes(app: FastifyInstance) {
       price: (a, b) => (a.pricing?.currentRate ?? 1e9) - (b.pricing?.currentRate ?? 1e9),
       availability: (a, b) => b.compatibleAvailable - a.compatibleAvailable || (a.distanceKm ?? 0) - (b.distanceKm ?? 0),
       rating: (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
+      reliability: (a, b) => (b.reliability.score ?? -1) - (a.reliability.score ?? -1),
     };
     if (qy.sort && sorters[qy.sort]) stations.sort(sorters[qy.sort]);
     return { stations, count: stations.length, vehicle: vehicle ? { id: vehicle.id, connectors: vehicle.connectors } : null };

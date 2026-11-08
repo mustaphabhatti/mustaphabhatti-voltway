@@ -149,6 +149,8 @@ function Profile() {
         </Card>
       </div>
 
+      <Contributions />
+
       <Card>
         <CardHeader title={<span className="flex items-center gap-2"><LifeBuoy className="size-4" />Support</span>} subtitle="Billing problems, faulty chargers or app issues" action={<Button size="sm" variant="outline" onClick={() => setTicketModal(true)}>New ticket</Button>} />
         <div className="px-5 pb-5 space-y-2">
@@ -166,6 +168,36 @@ function Profile() {
       <PaymentModal open={pmModal} onClose={() => setPmModal(false)} onSaved={() => methods.reload(true)} />
       <TicketModal open={ticketModal} onClose={() => setTicketModal(false)} onSaved={() => tickets.reload(true)} />
     </div>
+  );
+}
+
+function Contributions() {
+  const { data } = useFetch<any>('/me/contributions');
+  if (!data) return null;
+  return (
+    <Card id="contributions">
+      <CardHeader title={<span className="flex items-center gap-2"><Star className="size-4" />Community contributions</span>} subtitle="Check-ins, photos and stations you've added help every driver." action={<Link href="/add-station"><Button size="sm" variant="outline"><Plus className="size-4" />Add a station</Button></Link>} />
+      <div className="px-5 pb-5 space-y-4">
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center">
+          {[['checkins', 'Check-ins'], ['cities', 'Cities'], ['photos', 'Photos'], ['stations', 'Stations added'], ['reviews', 'Reviews']].map(([k, l]) => (
+            <div key={k} className="rounded-xl bg-surface-2 p-2.5"><div className="text-xl font-semibold tabular">{data.stats[k]}</div><div className="text-[11px] text-muted">{l}</div></div>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2">{data.badges.map((b: any) => <Badge key={b.id} tone={b.earned ? 'green' : 'outline'} className={b.earned ? '' : 'opacity-60'}>{b.earned ? '★ ' : ''}{b.label}</Badge>)}</div>
+        {data.stations.length > 0 && (
+          <div>
+            <div className="text-[13px] font-semibold mb-2">Stations you added</div>
+            <ul className="space-y-1.5">{data.stations.map((s: any) => <li key={s.id} className="flex items-center justify-between text-sm rounded-xl border border-border px-3 py-2"><Link href={`/stations/${s.id}`} className="font-medium hover:underline">{s.name}</Link><span className="flex gap-1.5">{s.coming_soon && <Badge>coming soon</Badge>}<Badge tone={s.listing_status === 'approved' ? 'green' : s.listing_status === 'rejected' ? 'red' : 'amber'}>{s.listing_status === 'approved' ? 'live' : s.listing_status === 'pending' ? 'in review' : s.listing_status}</Badge></span></li>)}</ul>
+          </div>
+        )}
+        {data.checkins.length > 0 && (
+          <div>
+            <div className="text-[13px] font-semibold mb-2">Your recent check-ins</div>
+            <ul className="space-y-1 text-sm">{data.checkins.slice(0, 6).map((c: any) => <li key={c.id} className="flex justify-between gap-2"><Link href={`/stations/${c.station_id}`} className="truncate hover:underline">{c.station_name}</Link><span className="text-muted whitespace-nowrap">{c.outcome.replace(/_/g, ' ')} · {timeAgo(c.created_at)}</span></li>)}</ul>
+          </div>
+        )}
+      </div>
+    </Card>
   );
 }
 

@@ -25,6 +25,8 @@ import { Estimator } from '@/components/station/Estimator';
 import { Forecast } from '@/components/station/Forecast';
 import { Reviews, Stars } from '@/components/station/Reviews';
 import { DirectionsButton } from '@/components/station/Directions';
+import { CommunitySection, PhotoGallery, ReliabilityBadge } from '@/components/station/community';
+import { LOCATION_TYPES, type LocationType } from '@voltway/shared';
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -84,6 +86,8 @@ export default function StationPage() {
               <Badge tone={s.openNow.open === false ? 'red' : 'green'}><Clock className="size-3" />{s.openNow.label}</Badge>
               {s.listingStatus !== 'approved' && <Badge tone="amber">Listing {s.listingStatus}</Badge>}
               {s.isDemo && <Badge tone="outline">Demo listing</Badge>}
+              {s.community && <Badge tone="outline">Added by drivers</Badge>}
+              {s.locationType !== 'public' && <Badge tone="outline">{LOCATION_TYPES[s.locationType as LocationType]}</Badge>}
             </div>
             <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{s.name}</h1>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-sm text-muted">
@@ -92,6 +96,9 @@ export default function StationPage() {
               <span className="inline-flex items-center gap-1"><MapPin className="size-3.5" />{s.address}, {s.city}</span>
             </div>
             {s.description && <p className="text-sm text-muted mt-3 max-w-2xl">{s.description}</p>}
+            {s.hostNotes && <p className="text-sm mt-2 max-w-2xl whitespace-pre-line rounded-xl bg-surface-2 p-3">{s.hostNotes}</p>}
+            {s.comingSoon && <div className="mt-3 rounded-xl border border-dashed border-border p-3 text-sm"><b>Coming soon.</b> This station has been reported as planned or under construction. Details may change; it can&apos;t be used yet.</div>}
+            {!s.comingSoon && <div className="mt-4"><ReliabilityBadge score={s.reliability.score} checkins={s.reliability.checkins} showLabel /></div>}
             {s.maintenanceMode && <div className="mt-3 rounded-xl bg-violet-soft text-violet text-sm p-3">{s.maintenanceNote ?? 'Under maintenance.'}</div>}
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-5">
@@ -135,6 +142,16 @@ export default function StationPage() {
                 {s.estimatedWaitMinutes ? ` Estimated wait for a compatible port: ~${s.estimatedWaitMinutes} min.` : ''}
               </p>
             </div>
+          </Card>
+
+          <Card>
+            <CardHeader title="Driver check-ins" subtitle="How charging went for other drivers — the basis of the reliability score." />
+            <div className="px-5 pb-5"><CommunitySection station={s} onChanged={() => reload(true)} /></div>
+          </Card>
+
+          <Card>
+            <CardHeader title="Photos" />
+            <div className="px-5 pb-5"><PhotoGallery station={s} /></div>
           </Card>
 
           <Card>

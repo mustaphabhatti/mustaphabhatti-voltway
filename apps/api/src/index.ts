@@ -21,6 +21,7 @@ import { routingRoutes } from './routes/routing';
 import { driverRoutes } from './routes/driver';
 import { operatorRoutes, UPLOAD_DIR } from './routes/operator';
 import { adminRoutes, publicSettingsRoutes } from './routes/admin';
+import { communityRoutes } from './routes/community';
 
 export async function buildApp() {
   const app = Fastify({
@@ -73,6 +74,7 @@ export async function buildApp() {
       await operatorRoutes(api);
       await adminRoutes(api);
       await publicSettingsRoutes(api);
+      await communityRoutes(api);
     },
     { prefix: '/api' },
   );

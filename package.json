@@ -5,7 +5,8 @@
   "description": "Voltway — EV charging discovery, smart charging intelligence and EV route planning platform",
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/api",
+    "apps/web"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=@voltway/api & npm run dev --workspace=@voltway/web",
@@ -16,7 +17,8 @@
     "db:reset": "npm run db:reset --workspace=@voltway/api",
     "test": "npm run test --workspace=@voltway/shared && npm run test --workspace=@voltway/api",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "build": "npm run build --workspace=@voltway/web"
+    "build": "npm run build --workspace=@voltway/web",
+    "dev:mobile": "cd apps/mobile && npx expo start"
   },
   "engines": {
     "node": ">=20"

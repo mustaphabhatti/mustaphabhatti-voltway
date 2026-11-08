@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { List, LocateFixed, Map as MapIcon, MapPin, Wifi, WifiOff } from 'lucide-react';
+import Link from 'next/link';
+import { List, LocateFixed, Map as MapIcon, MapPin, MapPinPlus, Wifi, WifiOff } from 'lucide-react';
 import { Map } from '@/components/map';
 import { StationCard } from '@/components/station/StationCard';
 import { StationPanel } from '@/components/station/StationPanel';
@@ -47,7 +48,7 @@ export default function ExplorePage() {
       const d = await api.get(`/stations${qs({
         bbox: dBbox.map((n) => n.toFixed(4)).join(','), lat: origin?.lat, lng: origin?.lng, connectors: filters.connectors, currentTypes: filters.currentTypes,
         minPowerKw: filters.minPowerKw || null, maxPrice: filters.maxPrice, available: filters.available, openNow: filters.openNow, is247: filters.is247,
-        amenities: filters.amenities, networks: filters.networks, sort: origin ? filters.sort : filters.sort === 'distance' ? null : filters.sort, limit: 300,
+        amenities: filters.amenities, networks: filters.networks, minScore: filters.minScore || null, comingSoon: filters.comingSoon, locationTypes: filters.locationTypes, sort: origin ? filters.sort : filters.sort === 'distance' ? null : filters.sort, limit: 300,
       })}`);
       setStations(d.stations);
       setError(null);
@@ -150,6 +151,7 @@ export default function ExplorePage() {
 
         {/* Map controls */}
         <div className="absolute z-[600] right-3 bottom-24 lg:bottom-6 flex flex-col gap-2">
+          <Link href="/add-station" title="Add a missing station"><Button variant="outline" size="icon" aria-label="Add a station" className="shadow-card"><MapPinPlus className="size-[18px]" /></Button></Link>
           <Button variant="outline" size="icon" aria-label="Center on my location" className="shadow-card" onClick={() => { if (origin) setFlyTo({ ...origin, zoom: 14, key: Date.now() }); else geo.request(); }}>
             <LocateFixed className={cn('size-[18px]', origin && 'text-electric')} />
           </Button>

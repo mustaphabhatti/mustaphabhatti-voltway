@@ -15,6 +15,10 @@ import { StationCard } from '@/components/station/StationCard';
 import { SearchBox } from '@/components/station/SearchBox';
 import { DEFAULT_FILTERS, FilterPanel, QuickFilters, type FilterState } from '@/components/station/Filters';
 import { EstimatedTag, SourceBadge, TrafficBadge } from '@/components/station/badges';
+import { OUTCOME_STYLE } from '@/components/station/community';
+import { useFetch } from '@/lib/hooks';
+import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, type CheckinOutcome, type CheckinProblem } from '@voltway/shared';
+import { timeAgo } from '@/lib/format';
 
 const MODES: RecommendationMode[] = ['balanced', 'fastest', 'closest', 'cheapest', 'least_wait'];
 
@@ -23,7 +27,7 @@ export default function NearbyPage() {
   const geo = useGeolocation();
   const [place, setPlace] = useState<{ lat: number; lng: number; label: string } | null>(null);
   const origin = place ?? (geo.position ? { ...geo.position, label: geo.isFallback ? 'Lahore (demo region)' : 'Your location' } : null);
-  const [tab, setTab] = useState<'smart' | 'all'>('smart');
+  const [tab, setTab] = useState<'smart' | 'all' | 'activity'>('smart');
   const [mode, setMode] = useState<RecommendationMode>('balanced');
   const [startSoc, setStartSoc] = useState(30);
   const [targetSoc, setTargetSoc] = useState(80);
@@ -53,7 +57,7 @@ export default function NearbyPage() {
   const loadAll = () => {
     if (!origin) return;
     setAllLoading(true);
-    api.get(`/stations${qs({ lat: origin.lat, lng: origin.lng, radiusKm: filters.radiusKm, connectors: filters.connectors, currentTypes: filters.currentTypes, minPowerKw: filters.minPowerKw || null, maxPrice: filters.maxPrice, available: filters.available, openNow: filters.openNow, is247: filters.is247, amenities: filters.amenities, networks: filters.networks, sort: filters.sort, limit: 100 })}`)
+    api.get(`/stations${qs({ lat: origin.lat, lng: origin.lng, radiusKm: filters.radiusKm, connectors: filters.connectors, currentTypes: filters.currentTypes, minPowerKw: filters.minPowerKw || null, maxPrice: filters.maxPrice, available: filters.available, openNow: filters.openNow, is247: filters.is247, amenities: filters.amenities, networks: filters.networks, minScore: filters.minScore || null, comingSoon: filters.comingSoon, locationTypes: filters.locationTypes, sort: filters.sort, limit: 100 })}`)
       .then((d) => { setStations(d.stations); setAllErr(null); }).catch(setAllErr).finally(() => setAllLoading(false));
   };
   useEffect(() => { if (tab === 'all') loadAll(); }, [origin?.lat, origin?.lng, filters, tab]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -74,9 +78,9 @@ export default function NearbyPage() {
         <SearchBox className="md:w-96" placeholder="Search near another place…" onPick={(r) => setPlace({ lat: r.lat, lng: r.lng, label: r.name })} />
       </div>
 
-      <Segmented value={tab} onChange={setTab} options={[{ value: 'smart', label: <span className="inline-flex items-center gap-1.5"><Sparkles className="size-3.5" />Smart picks</span> }, { value: 'all', label: 'All nearby' }]} className="mb-4" />
+      <Segmented value={tab} onChange={setTab} options={[{ value: 'smart', label: <span className="inline-flex items-center gap-1.5"><Sparkles className="size-3.5" />Smart picks</span> }, { value: 'all', label: 'All nearby' }, { value: 'activity', label: 'Recent activity' }]} className="mb-4" />
 
-      {tab === 'smart' ? (
+      {tab === 'activity' ? <ActivityFeed origin={origin} /> : tab === 'smart' ? (
         <>
           <Card className="p-4 mb-4">
             <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -196,5 +200,29 @@ function Mini({ label, value, sub, strong }: { label: string; value: string; sub
       <div className="text-[14px] font-semibold tabular leading-tight mt-0.5">{value}</div>
       {sub && <div className="text-[11px] text-muted leading-tight">{sub}</div>}
     </div>
+  );
+}
+
+function ActivityFeed({ origin }: { origin: { lat: number; lng: number } | null }) {
+  const { data, error, loading, reload } = useFetch<any>(origin ? `/activity?lat=${origin.lat}&lng=${origin.lng}&radiusKm=60` : '/activity');
+  if (error) return <ErrorState error={error} onRetry={reload} />;
+  if (loading) return <SkeletonList rows={5} />;
+  if (!data.activity.length) return <EmptyState title="No recent check-ins nearby" body="Check in after charging to help other drivers." />;
+  return (
+    <Card className="divide-y divide-border">
+      {data.activity.map((a: any) => {
+        const S = OUTCOME_STYLE[a.outcome as CheckinOutcome];
+        return (
+          <div key={a.id} className="flex gap-3 p-4">
+            <span className={cn('size-9 shrink-0 rounded-xl grid place-items-center', S.cls)}><S.icon className="size-4" /></span>
+            <div className="min-w-0 flex-1">
+              <div className="flex justify-between gap-2"><Link href={`/stations/${a.station_id}`} className="text-sm font-semibold hover:underline truncate">{a.station_name}</Link><span className="text-xs text-subtle whitespace-nowrap">{timeAgo(a.created_at)}</span></div>
+              <div className="text-[13px]"><span className="font-medium">{CHECKIN_OUTCOMES[a.outcome as CheckinOutcome]}</span>{a.problem && <span className="text-danger"> · {CHECKIN_PROBLEMS[a.problem as CheckinProblem]}</span>}<span className="text-muted"> · {a.author}{a.vehicle_label ? `, ${a.vehicle_label}` : ''}{a.kw_observed ? ` · ${a.kw_observed} kW` : ''} · {a.city}</span></div>
+              {a.comment && <p className="text-sm text-muted mt-0.5">{a.comment}</p>}
+            </div>
+          </div>
+        );
+      })}
+    </Card>
   );
 }

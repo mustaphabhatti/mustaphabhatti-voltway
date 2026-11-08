@@ -12,6 +12,8 @@ import { Badge, Button } from '@/components/ui';
 import { EstimatedTag, OperationalBadge, SourceBadge, TrafficBadge } from './badges';
 import { connectorGroups } from './StationCard';
 import { DirectionsButton } from './Directions';
+import { CheckinModal, ReliabilityBadge } from './community';
+import { timeAgo } from '@/lib/format';
 
 export function StationPanel({ station: s, origin, onClose }: { station: Station; origin: { lat: number; lng: number } | null; onClose: () => void }) {
   const { me } = useAuth();
@@ -19,6 +21,7 @@ export function StationPanel({ station: s, origin, onClose }: { station: Station
   const [fav, setFav] = useState(false);
   const [eta, setEta] = useState<any>(null);
   const [quick, setQuick] = useState<any>(null);
+  const [checkin, setCheckin] = useState(false);
   useEffect(() => {
     setEta(null); setQuick(null);
     if (me.user) api.get(`/stations/${s.id}`).then((d) => setFav(d.favorite)).catch(() => {});
@@ -82,6 +85,11 @@ export function StationPanel({ station: s, origin, onClose }: { station: Station
           <Fact label="Wait time" value={s.estimatedWaitMinutes == null ? '—' : s.estimatedWaitMinutes === 0 ? 'No wait' : `~${s.estimatedWaitMinutes} min`} sub={s.compatibleAvailable ? `${s.compatibleAvailable} compatible free` : 'All compatible ports busy'} est />
         </div>
         {traffic && <TrafficBadge level={traffic.level} source={traffic.source} />}
+        <div className="rounded-xl border border-border p-3 flex items-center gap-3">
+          <ReliabilityBadge score={s.reliability.score} checkins={s.reliability.checkins} size="lg" showLabel />
+          <Button size="sm" variant="outline" className="ml-auto" onClick={() => (me.user ? setCheckin(true) : toast('info', 'Sign in to check in'))}>Check in</Button>
+        </div>
+        {s.reliability.lastSuccessAt && <p className="text-xs text-muted -mt-2">Last successful charge reported by a driver {timeAgo(s.reliability.lastSuccessAt)}.</p>}
         {quick && (
           <div className="rounded-xl border border-border p-3 flex items-center gap-3">
             <div className="size-9 rounded-lg bg-electric-soft text-electric grid place-items-center"><Hourglass className="size-4" /></div>
@@ -113,6 +121,7 @@ export function StationPanel({ station: s, origin, onClose }: { station: Station
           <Button variant="outline" className="w-full" onClick={watch}><BellRing className="size-4" /> Notify me when a charger is free</Button>
         )}
       </div>
+      <CheckinModal open={checkin} onClose={() => setCheckin(false)} station={s} onDone={() => {}} />
       <div className="p-3 border-t border-border grid grid-cols-2 gap-2">
         <DirectionsButton lat={s.lat} lng={s.lng} label={s.name} />
         <Link href={`/stations/${s.id}`}><Button variant="outline" className="w-full">Details <ExternalLink className="size-3.5" /></Button></Link>
