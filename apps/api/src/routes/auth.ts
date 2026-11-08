@@ -61,8 +61,9 @@ export async function authRoutes(app: FastifyInstance) {
       [b.email ?? null, b.phone ?? null, hash, b.fullName, b.accountType],
     );
     await q('INSERT INTO user_preferences(user_id) VALUES ($1)', [u.id]);
-    await issueSession(reply, u.id);
-    return { user: publicUser(await loadUser(u.id)) };
+    const token = await issueSession(reply, u.id);
+    // Browsers use the httpOnly cookie; native apps store the token securely and send it as a Bearer header.
+    return { user: publicUser(await loadUser(u.id)), token };
   });
 
   app.post('/auth/login', async (req, reply) => {
@@ -72,8 +73,8 @@ export async function authRoutes(app: FastifyInstance) {
     if (!u?.password_hash || !(await bcrypt.compare(b.password, u.password_hash))) throw unauthorized('Incorrect email/phone or password');
     if (u.status !== 'active') throw unauthorized('This account is suspended. Contact support.');
     await q('UPDATE users SET last_login_at = now() WHERE id = $1', [u.id]);
-    await issueSession(reply, u.id);
-    return { user: publicUser(await loadUser(u.id)) };
+    const token = await issueSession(reply, u.id);
+    return { user: publicUser(await loadUser(u.id)), token };
   });
 
   app.post('/auth/logout', async (_req, reply) => {
