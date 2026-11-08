@@ -1,0 +1,20 @@
+# Local database for Wattly: PostgreSQL 16 with PostGIS.
+#   docker compose up -d db
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: wattly-db
+    environment:
+      POSTGRES_USER: evcharge
+      POSTGRES_PASSWORD: evcharge
+      POSTGRES_DB: evcharge
+    ports:
+      - "5432:5432"
+    volumes:
+      - wattly-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evcharge"]
+      interval: 5s
+      retries: 10
+volumes:
+  wattly-db:

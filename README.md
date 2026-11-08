@@ -60,30 +60,32 @@ It runs as one platform with three clients:
 
 ## Quick start (local)
 
-Requirements: Node 20+, PostgreSQL 14+ with PostGIS 3.
+Requirements: **Node.js 20+** and either **Docker Desktop** (easiest) or a local PostgreSQL 14+ with PostGIS 3.
 
 ```bash
-# 1. Database
-createuser -s evcharge && createdb -O evcharge evcharge
-psql -d evcharge -c "ALTER USER evcharge PASSWORD 'evcharge'; CREATE EXTENSION postgis;"
-
-# 2. Install (root workspaces: shared, api, web)
+git clone https://github.com/mustaphabhatti/mustaphabhatti-voltway wattly && cd wattly
 npm install
-
-# 3. Configure
-cp apps/api/.env.example apps/api/.env      # set JWT_SECRET
+cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env.local
-
-# 4. Schema + demo data
-npm run db:migrate
-npm run db:seed          # or: npm run db:reset
-
-# 5. Run
-npm run dev:api          # http://localhost:4000
-npm run dev:web          # http://localhost:3000
+npm run db:up        # starts PostgreSQL + PostGIS in Docker (skip if you have your own)
+npm run setup        # creates the tables and loads the demo data
 ```
 
-Demo accounts (password `Demo1234!`): `driver@wattly.demo`, `ops@voltgrid.demo` (operator), `admin@wattly.demo`.
+Then run each in its own terminal:
+
+```bash
+npm run dev:api      # API on http://localhost:4000
+npm run dev:web      # Website on http://localhost:3000
+```
+
+Open http://localhost:3000. Demo accounts (password `Demo1234!`): `driver@wattly.demo`, `ops@voltgrid.demo` (Wattly Business), `admin@wattly.demo`.
+
+Without Docker, create the database yourself, then run `npm run setup`:
+
+```bash
+createuser -s evcharge && createdb -O evcharge evcharge
+psql -d evcharge -c "ALTER USER evcharge PASSWORD 'evcharge'; CREATE EXTENSION postgis;"
+```
 
 ### Mobile app (Android / iOS)
 

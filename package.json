@@ -18,7 +18,9 @@
     "test": "npm run test --workspace=@wattly/shared && npm run test --workspace=@wattly/api",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "build": "npm run build --workspace=@wattly/web",
-    "dev:mobile": "cd apps/mobile && npx expo start"
+    "dev:mobile": "cd apps/mobile && npx expo start",
+    "setup": "npm run db:migrate && npm run db:seed",
+    "db:up": "docker compose up -d db"
   },
   "engines": {
     "node": ">=20"
