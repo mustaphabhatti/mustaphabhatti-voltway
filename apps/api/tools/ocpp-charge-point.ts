@@ -44,7 +44,7 @@ async function stopTx(transactionId: number) {
 
 ws.on('open', async () => {
   console.log(`connected as ${identity}`);
-  const boot = await call('BootNotification', { chargePointVendor: 'VoltwayDev', chargePointModel: 'Emu-DC150', firmwareVersion: '1.0.0' });
+  const boot = await call('BootNotification', { chargePointVendor: 'WattlyDev', chargePointModel: 'Emu-DC150', firmwareVersion: '1.0.0' });
   console.log('BootNotification →', boot.status);
   for (let c = 1; c <= connectors; c++) await call('StatusNotification', { connectorId: c, status: 'Available', errorCode: 'NoError' });
   setInterval(() => call('Heartbeat', {}), 60_000);

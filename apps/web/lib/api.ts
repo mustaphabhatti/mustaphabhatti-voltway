@@ -17,7 +17,7 @@ async function request<T>(method: string, url: string, body?: Json | FormData): 
       body: isForm ? (body as FormData) : method === 'GET' ? undefined : JSON.stringify(body ?? {}),
     });
   } catch {
-    throw new ApiError(0, 'Cannot reach Voltway right now. Check your connection and try again.');
+    throw new ApiError(0, 'Cannot reach Wattly right now. Check your connection and try again.');
   }
   const text = await res.text();
   let data: any = null;
@@ -27,7 +27,7 @@ async function request<T>(method: string, url: string, body?: Json | FormData): 
     data = { error: text };
   }
   if (!res.ok) {
-    const msg = data?.error ?? (res.status === 502 || res.status === 504 ? 'The Voltway API is not responding. Is it running?' : `Request failed (${res.status})`);
+    const msg = data?.error ?? (res.status === 502 || res.status === 504 ? 'The Wattly API is not responding. Is it running?' : `Request failed (${res.status})`);
     throw new ApiError(res.status, msg, data?.details);
   }
   return data as T;

@@ -18,7 +18,7 @@ export default function Integrations() {
   const H = ({ name }: { name: string }) => { const h = health(name); return !h ? <Badge>not used yet</Badge> : h.ok ? <Badge tone="green"><CheckCircle2 className="size-3" />ok {timeAgo(h.lastSuccessAt)}</Badge> : <Badge tone="red" title={h.lastError}><XCircle className="size-3" />failing · {h.lastError}</Badge>; };
   return (
     <>
-      <PageHeader title="Integrations" subtitle="Maps, routing, traffic, charger networks, payments and sign-in providers. Secrets are configured as server environment variables." />
+      <PageHeader title="Integrations & Wattly Network" subtitle="Maps, routing, traffic, charger networks, payments and sign-in providers. Secrets are configured as server environment variables." />
       <div className="grid lg:grid-cols-2 gap-4">
         <Card>
           <CardHeader title={<span className="flex items-center gap-2"><Map className="size-4" />Maps, routing & traffic</span>} />
@@ -43,14 +43,14 @@ export default function Integrations() {
         </Card>
       </div>
       <Card className="mt-4">
-        <CardHeader title={<span className="flex items-center gap-2"><Plug className="size-4" />OCPP 1.6J charge points</span>} subtitle={`Endpoint ws(s)://<api-host>${data.ocpp.endpoint} · sub-protocol ${data.ocpp.protocol}`} />
+        <CardHeader title={<span className="flex items-center gap-2"><Plug className="size-4" />Wattly Network · OCPP 1.6J charge points</span>} subtitle={`Endpoint ws(s)://<api-host>${data.ocpp.endpoint} · sub-protocol ${data.ocpp.protocol}`} />
         <Table>
           <thead><tr><th>Identity</th><th>Station</th><th>Hardware</th><th>Last heartbeat</th><th>Connection</th></tr></thead>
           <tbody>{data.ocpp.chargePoints.map((c: any) => <tr key={c.id}><td className="font-mono text-xs">{c.id}</td><td>{c.station_name}</td><td className="text-muted">{c.vendor ? `${c.vendor} ${c.model ?? ''}` : '—'}</td><td className="text-muted">{c.last_heartbeat_at ? timeAgo(c.last_heartbeat_at) : 'never'}</td><td><Badge tone={c.connected ? 'green' : 'neutral'}>{c.connected ? 'connected' : 'offline'}</Badge></td></tr>)}</tbody>
         </Table>
       </Card>
       <Card className="mt-4">
-        <CardHeader title={<span className="flex items-center gap-2"><KeyRound className="size-4" />OCPI roaming connections</span>} subtitle="Import a CPO's locations and live EVSE status (OCPI 2.2.1, eMSP pull)." action={<Button size="sm" onClick={() => setOcpi({ name: '', companyId: '', locationsUrl: '', token: '' })}>Add connection</Button>} />
+        <CardHeader title={<span className="flex items-center gap-2"><KeyRound className="size-4" />Wattly Network · OCPI roaming connections</span>} subtitle="Import a CPO's locations and live EVSE status (OCPI 2.2.1, eMSP pull)." action={<Button size="sm" onClick={() => setOcpi({ name: '', companyId: '', locationsUrl: '', token: '' })}>Add connection</Button>} />
         {data.integrations.length === 0 ? <p className="px-5 pb-5 text-sm text-muted">No OCPI connections configured.</p> : (
           <Table>
             <thead><tr><th>Name</th><th>Company</th><th>Locations URL</th><th>Last sync</th><th>Status</th><th></th></tr></thead>

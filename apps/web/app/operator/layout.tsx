@@ -24,14 +24,14 @@ export default function OperatorLayout({ children }: { children: React.ReactNode
   const company = me.companies?.[0];
   if (path === '/operator/register') return <>{children}</>;
   return (
-    <DashboardShell nav={NAV} badge="Operator"
+    <DashboardShell nav={NAV} badge="Business"
       header={company && (
         <div className="rounded-xl bg-surface-2 p-3">
           <div className="text-[13px] font-semibold truncate flex items-center gap-1.5"><Building2 className="size-3.5" />{company.name}</div>
           <Badge tone={company.verification_status === 'verified' ? 'green' : company.verification_status === 'pending' ? 'amber' : 'red'} className="mt-1.5">{company.verification_status === 'verified' ? 'Verified operator' : company.verification_status === 'pending' ? 'Verification pending' : `Verification ${company.verification_status}`}</Badge>
         </div>
       )}>
-      <RequireRole roles={['operator', 'admin']} fallback={<EmptyState icon={<Building2 className="size-6" />} title="Run charging stations?" body="Register your company to list stations, set prices and see analytics." action={<Link href="/operator/register"><Button>Register your company</Button></Link>} />}>
+      <RequireRole roles={['operator', 'admin']} fallback={<EmptyState icon={<Building2 className="size-6" />} title="Run charging stations?" body="Join Wattly Business to list your stations on Wattly Network, set prices and see analytics." action={<Link href="/operator/register"><Button>Register your company</Button></Link>} />}>
         {me.user?.role === 'operator' && !company ? (
           <EmptyState icon={<Building2 className="size-6" />} title="Register your company" body="Add your business details to start managing stations." action={<Link href="/operator/register"><Button>Register company</Button></Link>} />
         ) : me.user?.role === 'admin' && !company ? (

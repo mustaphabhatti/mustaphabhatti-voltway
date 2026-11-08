@@ -1,4 +1,4 @@
-import type { ConnectorType, DataSource, PortStatus, PortSummary, Tariff } from '@voltway/shared';
+import type { ConnectorType, DataSource, PortStatus, PortSummary, Tariff } from '@wattly/shared';
 
 export interface Port {
   id: string;

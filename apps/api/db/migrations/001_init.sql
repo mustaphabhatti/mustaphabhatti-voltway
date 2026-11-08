@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════════════
--- Voltway schema — PostgreSQL 14+ with PostGIS 3
+-- Wattly schema — PostgreSQL 14+ with PostGIS 3
 -- ════════════════════════════════════════════════════════════════════════════
 CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;

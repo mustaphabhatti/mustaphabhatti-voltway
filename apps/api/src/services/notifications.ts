@@ -1,4 +1,4 @@
-import type { NotificationType } from '@voltway/shared';
+import type { NotificationType } from '@wattly/shared';
 import { q, one } from '../db';
 import { publishToUser } from '../realtime/hub';
 

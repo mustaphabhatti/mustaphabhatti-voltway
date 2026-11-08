@@ -1,6 +1,6 @@
 'use client';
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { formatMoney } from '@voltway/shared';
+import { formatMoney } from '@wattly/shared';
 import { useFetch } from '@/lib/hooks';
 import { Skeleton } from '@/components/ui';
 

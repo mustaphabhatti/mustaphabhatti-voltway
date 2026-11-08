@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Alert, ScrollView, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { router, useLocalSearchParams } from 'expo-router';
-import { estimateCharging, formatDuration, formatMoney } from '@voltway/shared';
+import { estimateCharging, formatDuration, formatMoney } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/hooks';
 import { useRealtime } from '@/lib/realtime';

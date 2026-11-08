@@ -39,9 +39,9 @@ export function UserMenu() {
           </div>
           <div className="h-px bg-border my-1" />
           <MenuLink href="/profile" icon={User} onClick={() => setOpen(false)}>Profile & vehicles</MenuLink>
-          {(me.user.role === 'operator' || me.user.role === 'admin') && <MenuLink href="/operator" icon={Building2} onClick={() => setOpen(false)}>Operator dashboard</MenuLink>}
-          {me.user.role === 'driver' && <MenuLink href="/operator/register" icon={Building2} onClick={() => setOpen(false)}>Register a charging company</MenuLink>}
-          {me.user.role === 'admin' && <MenuLink href="/admin" icon={Shield} onClick={() => setOpen(false)}>Admin panel</MenuLink>}
+          {(me.user.role === 'operator' || me.user.role === 'admin') && <MenuLink href="/operator" icon={Building2} onClick={() => setOpen(false)}>Wattly Business</MenuLink>}
+          {me.user.role === 'driver' && <MenuLink href="/operator/register" icon={Building2} onClick={() => setOpen(false)}>Join Wattly Business</MenuLink>}
+          {me.user.role === 'admin' && <MenuLink href="/admin" icon={Shield} onClick={() => setOpen(false)}>Wattly Admin</MenuLink>}
           <div className="h-px bg-border my-1" />
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-[13px] text-muted">Theme</span>

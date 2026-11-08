@@ -1,6 +1,6 @@
 import { FlatList, RefreshControl, View } from 'react-native';
 import { router } from 'expo-router';
-import { formatDuration, formatMoney } from '@voltway/shared';
+import { formatDuration, formatMoney } from '@wattly/shared';
 import { useFetch } from '@/lib/hooks';
 import { dateTime } from '@/lib/format';
 import { useColors } from '@/lib/theme';

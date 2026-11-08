@@ -11,13 +11,13 @@ import { DemoBanner } from './DemoBanner';
 
 export interface NavItem { href: string; label: string; icon: any; exact?: boolean }
 
-export function DashboardShell({ nav, children, badge, header, footer }: { nav: NavItem[]; children: ReactNode; badge: string; header?: ReactNode; footer?: ReactNode }) {
+export function DashboardShell({ nav, children, badge, header, footer }: { nav: NavItem[]; children: ReactNode; badge: 'Business' | 'Admin' | 'Network'; header?: ReactNode; footer?: ReactNode }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const active = (n: NavItem) => (n.exact ? path === n.href : path === n.href || path.startsWith(n.href + '/'));
   const sidebar = (
     <div className="flex flex-col h-full">
-      <div className="h-14 flex items-center px-4 border-b border-border"><Logo href={nav[0].href} suffix={badge} /></div>
+      <div className="h-14 flex items-center px-4 border-b border-border"><Logo href={nav[0].href} product={badge} /></div>
       {header && <div className="px-3 pt-3">{header}</div>}
       <nav className="flex-1 overflow-y-auto p-3 space-y-0.5 scrollbar-thin" aria-label={`${badge} navigation`}>
         {nav.map((n) => (
@@ -46,9 +46,9 @@ export function DashboardShell({ nav, children, badge, header, footer }: { nav: 
             <button className="lg:hidden size-10 grid place-items-center rounded-xl hover:bg-surface-2" onClick={() => setOpen(true)} aria-label="Open navigation">
               {open ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
-            <div className="lg:hidden"><Logo href={nav[0].href} /></div>
+            <div className="lg:hidden"><Logo href={nav[0].href} product={badge} /></div>
             <div className="ml-auto flex items-center gap-1.5">
-              <Link href="/" className="hidden sm:inline text-[13px] text-muted hover:text-text px-3">Driver app ↗</Link>
+              <Link href="/" className="hidden sm:inline text-[13px] text-muted hover:text-text px-3">Wattly Drive ↗</Link>
               <NotificationBell />
               <UserMenu />
             </div>

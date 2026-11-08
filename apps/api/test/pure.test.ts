@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mapOcpiConnector } from '../src/integrations/ocpi/client';
 import { typicalTrafficFactor, levelFromDelay } from '../src/integrations/maps/traffic';
-import { reliabilityScore, ocppStatusToPortStatus } from '@voltway/shared';
+import { reliabilityScore, ocppStatusToPortStatus } from '@wattly/shared';
 
 describe('OCPI mapping', () => {
   it('maps CCS2 DC connectors with power from max_electric_power', () => {

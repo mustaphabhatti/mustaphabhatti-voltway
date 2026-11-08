@@ -1,6 +1,6 @@
 'use client';
 import { Bell } from 'lucide-react';
-import { NOTIFICATION_LABELS, NOTIFICATION_TYPES } from '@voltway/shared';
+import { NOTIFICATION_LABELS, NOTIFICATION_TYPES } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useFetch } from '@/lib/hooks';
@@ -44,7 +44,7 @@ function Notifications() {
           )}
         </div>
         <Card className="h-fit">
-          <CardHeader title="Preferences" subtitle="Choose what Voltway tells you about" />
+          <CardHeader title="Preferences" subtitle="Choose what Wattly tells you about" />
           <div className="px-5 pb-5 space-y-4">
             {NOTIFICATION_TYPES.filter((t) => t !== 'system').map((t) => (
               <Toggle key={t} checked={prefs[t] !== false} onChange={(v) => setPref(t, v)} label={NOTIFICATION_LABELS[t].label} description={NOTIFICATION_LABELS[t].description} />

@@ -6,7 +6,8 @@ import { Providers } from './providers';
 import { themeScript } from '@/lib/theme';
 
 export const metadata: Metadata = {
-  title: { default: 'Voltway — EV charging & smart navigation', template: '%s · Voltway' },
+  title: { default: 'Wattly Drive — find, charge and plan your EV trips', template: '%s · Wattly' },
+  applicationName: 'Wattly',
   description: 'Find EV chargers, check availability and prices, estimate charging time and plan EV-optimised routes.',
   icons: { icon: '/favicon.svg' },
 };

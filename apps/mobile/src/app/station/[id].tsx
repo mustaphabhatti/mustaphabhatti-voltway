@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Alert, Image, Pressable, RefreshControl, ScrollView, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
-import { AMENITY_LABELS, CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, CONNECTOR_LABELS, PAYMENT_METHOD_LABELS, PORT_STATUS_LABELS, formatDuration, formatMoney, reliabilityLabel } from '@voltway/shared';
+import { AMENITY_LABELS, CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, CONNECTOR_LABELS, PAYMENT_METHOD_LABELS, PORT_STATUS_LABELS, formatDuration, formatMoney, reliabilityLabel } from '@wattly/shared';
 import { absoluteUrl, api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useDebounced, useFetch } from '@/lib/hooks';

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { BatteryCharging, CalendarClock, FileText, History as HistoryIcon, Receipt, Zap } from 'lucide-react';
-import { formatDuration, formatMoney } from '@voltway/shared';
+import { formatDuration, formatMoney } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/hooks';
 import { useToast } from '@/lib/toast';

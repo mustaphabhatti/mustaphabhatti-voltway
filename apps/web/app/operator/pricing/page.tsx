@@ -2,7 +2,7 @@
 import { useMemo, useState } from 'react';
 import { CircleDollarSign, Copy, Plus, Trash2 } from 'lucide-react';
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { DEFAULT_TARIFF, dailySchedule, formatMoney, normalizeTariff, type Tariff, type TouPeriod } from '@voltway/shared';
+import { DEFAULT_TARIFF, dailySchedule, formatMoney, normalizeTariff, type Tariff, type TouPeriod } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/hooks';
 import { useToast } from '@/lib/toast';

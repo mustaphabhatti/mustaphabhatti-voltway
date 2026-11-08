@@ -1,4 +1,4 @@
-import { CONNECTOR_CURRENT, costForEnergyChunks, normalizeTariff, round, type ConnectorType } from '@voltway/shared';
+import { CONNECTOR_CURRENT, costForEnergyChunks, normalizeTariff, round, type ConnectorType } from '@wattly/shared';
 import { q, one, tx } from '../db';
 import { badRequest, conflict, forbidden, notFound, notImplemented } from '../lib/errors';
 import type { AuthUser } from '../lib/auth';
@@ -185,7 +185,7 @@ export async function finalizeSession(sessionId: string, status: 'completed' | '
     });
     await q(
       `INSERT INTO invoices(number, session_id, user_id, company_id, amount, currency, breakdown, payment_status, payment_provider, provider_ref)
-       VALUES ('VW-' || nextval('invoice_number_seq'), $1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+       VALUES ('WT-' || nextval('invoice_number_seq'), $1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [sessionId, s.user_id, s.company_id, breakdown.total, breakdown.currency, { ...breakdown, demo: provider.isDemo, paymentMethod: pm?.label ?? null },
        charge.status === 'paid' ? 'paid' : charge.status === 'failed' ? 'failed' : 'pending', charge.provider, charge.ref],
     );

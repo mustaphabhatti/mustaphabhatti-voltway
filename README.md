@@ -1,6 +1,15 @@
-# Voltway — EV charging & smart navigation platform
+# Wattly — EV charging & smart navigation
 
-Voltway helps EV drivers find compatible chargers, see what's free, compare prices across peak and off-peak, estimate charging time with real charging curves, and plan EV routes with charging stops. Drivers can check in, upload photos and add missing stations, and those contributions feed a station reliability score. Charging companies get a dashboard for stations, ports, tariffs and analytics, and platform admins get a moderation and verification console.
+**Wattly** is an EV charging platform with four products:
+
+| Product | Purpose | In this repo |
+|---|---|---|
+| **Wattly** | Parent company and brand | Shared platform, admin console ("Wattly Admin") |
+| **Wattly Drive** | EV driver app | `apps/mobile` (Android & iOS) and the driver side of `apps/web` |
+| **Wattly Business** | Charging company dashboard | `apps/web` → `/operator` |
+| **Wattly Network** | Charging infrastructure network | Stations, ports and charger connections (OCPP 1.6J, OCPI), community-added stations |
+
+Wattly Drive helps EV drivers find compatible chargers, see what's free, compare prices across peak and off-peak, estimate charging time with real charging curves, and plan EV routes with charging stops. Drivers can check in, upload photos and add missing stations to Wattly Network, and those contributions feed a station reliability score. Charging companies manage stations, ports, tariffs and analytics in Wattly Business, and platform admins verify and moderate everything.
 
 It runs as one platform with three clients:
 
@@ -23,7 +32,7 @@ It runs as one platform with three clients:
 - **Charging estimator:** uses the vehicle's DC curve, on-board AC limit, shared-power cabinets, efficiency losses and temperature. It never assumes the charger's rated power is what the car receives. It shows duration, energy (into the battery and billed), cost integrated over time-of-use windows, completion time, and "start now vs cheapest time".
 - **Smart picks:** ranks nearby stations by total time (drive + wait + charge), cost, distance, wait and reliability, with side-by-side comparison.
 - **EV route planner:** picks charging stops for the car and battery level, and shows arrival battery at every stop, charge time, cost, total trip time, alternative routes and strategies (fastest / fewest stops / cheapest). It hands off to Google Maps / Apple Maps / Waze.
-- **Community features (PlugShare-style, with Voltway's own design):**
+- **Community features (PlugShare-style, with Wattly's own design):**
   - Check-ins: charged / couldn't charge (with the problem) / waiting / charging now / comment, with observed kW, duration and a photo.
   - **Reliability score (0–10)** from recency-weighted check-ins and ratings.
   - Driver photos, recent activity feed, driver-added and coming-soon stations (including shared home chargers), contributor stats and badges.
@@ -74,7 +83,7 @@ npm run dev:api          # http://localhost:4000
 npm run dev:web          # http://localhost:3000
 ```
 
-Demo accounts (password `Demo1234!`): `driver@voltway.demo`, `ops@voltgrid.demo` (operator), `admin@voltway.demo`.
+Demo accounts (password `Demo1234!`): `driver@wattly.demo`, `ops@voltgrid.demo` (operator), `admin@wattly.demo`.
 
 ### Mobile app (Android / iOS)
 

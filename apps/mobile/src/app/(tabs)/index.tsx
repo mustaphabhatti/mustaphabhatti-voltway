@@ -4,7 +4,7 @@ import MapView, { Marker, type Region } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { formatDistance, formatDuration, formatMoney, summarizePorts } from '@voltway/shared';
+import { formatDistance, formatDuration, formatMoney, summarizePorts } from '@wattly/shared';
 import { api, qs } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useDebounced } from '@/lib/hooks';

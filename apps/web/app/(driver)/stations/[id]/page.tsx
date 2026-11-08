@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import {
   AMENITY_LABELS, PAYMENT_METHOD_LABELS, formatDistance, formatDuration, formatMoney, type Amenity, type PaymentMethodKind,
-} from '@voltway/shared';
+} from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useGeolocation } from '@/lib/geo';
@@ -26,7 +26,7 @@ import { Forecast } from '@/components/station/Forecast';
 import { Reviews, Stars } from '@/components/station/Reviews';
 import { DirectionsButton } from '@/components/station/Directions';
 import { CommunitySection, PhotoGallery, ReliabilityBadge } from '@/components/station/community';
-import { LOCATION_TYPES, type LocationType } from '@voltway/shared';
+import { LOCATION_TYPES, type LocationType } from '@wattly/shared';
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

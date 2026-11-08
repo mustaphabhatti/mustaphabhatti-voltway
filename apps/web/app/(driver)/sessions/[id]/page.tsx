@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { BatteryCharging, CheckCircle2, Clock, FileText, FlaskConical, Gauge, Radio, Square, Zap } from 'lucide-react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { estimateCharging, formatDuration, formatMoney } from '@voltway/shared';
+import { estimateCharging, formatDuration, formatMoney } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/hooks';
 import { useRealtime } from '@/lib/realtime';

@@ -5,7 +5,7 @@
 // Everything it produces is tagged source = 'simulated' and labelled as demo
 // data in the UI. It is never presented as live information.
 // ─────────────────────────────────────────────────────────────────────────────
-import { vehicleAcceptanceKw, temperatureFactor, chargingEfficiency, type PortStatus } from '@voltway/shared';
+import { vehicleAcceptanceKw, temperatureFactor, chargingEfficiency, type PortStatus } from '@wattly/shared';
 import { config } from '../../config';
 import { q } from '../../db';
 import type { ChargingController } from './types';

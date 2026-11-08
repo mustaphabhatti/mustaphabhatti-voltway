@@ -116,18 +116,18 @@ body {
 .leaflet-control-zoom a { background: var(--surface) !important; color: var(--text) !important; border-color: var(--border) !important; }
 .leaflet-control-attribution { background: color-mix(in srgb, var(--surface) 80%, transparent) !important; color: var(--muted) !important; font-size: 10px; }
 .leaflet-control-attribution a { color: var(--muted) !important; }
-.vw-marker { background: transparent; border: 0; }
-.vw-pin { display: flex; align-items: center; gap: 3px; padding: 3px 7px 3px 5px; border-radius: 999px; color: #fff; font: 600 11px/1 var(--font-sans);
+.wt-marker { background: transparent; border: 0; }
+.wt-pin { display: flex; align-items: center; gap: 3px; padding: 3px 7px 3px 5px; border-radius: 999px; color: #fff; font: 600 11px/1 var(--font-sans);
   box-shadow: 0 2px 8px rgba(0,0,0,.28); border: 2px solid #fff; white-space: nowrap; transform: translate(-50%, -100%); position: absolute; left: 0; top: 0; transition: transform .15s; }
-.dark .vw-pin { border-color: #0b0e12; }
-.vw-pin::after { content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); border: 5px solid transparent; border-top-color: inherit; border-top-color: #fff; }
-.vw-pin.selected { transform: translate(-50%, -100%) scale(1.18); z-index: 1000; box-shadow: 0 0 0 4px var(--ring), 0 4px 14px rgba(0,0,0,.35); }
-.vw-pin svg { width: 12px; height: 12px; }
-.vw-score { margin-left: 2px; padding: 1px 4px; border-radius: 6px; background: rgba(255,255,255,.25); font-size: 10px; }
-.vw-pin.soon { border-style: dashed; opacity: .9; }
-.vw-user { width: 18px; height: 18px; border-radius: 999px; background: var(--electric); border: 3px solid #fff; box-shadow: 0 0 0 6px color-mix(in srgb, var(--electric) 25%, transparent); }
-.vw-stop { width: 26px; height: 26px; border-radius: 999px; background: var(--accent); color: #fff; display: grid; place-items: center; font: 700 12px var(--font-sans); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
-.vw-endpoint { width: 16px; height: 16px; border-radius: 4px; background: var(--text); border: 3px solid var(--surface); box-shadow: 0 2px 6px rgba(0,0,0,.3); }
+.dark .wt-pin { border-color: #0b0e12; }
+.wt-pin::after { content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); border: 5px solid transparent; border-top-color: inherit; border-top-color: #fff; }
+.wt-pin.selected { transform: translate(-50%, -100%) scale(1.18); z-index: 1000; box-shadow: 0 0 0 4px var(--ring), 0 4px 14px rgba(0,0,0,.35); }
+.wt-pin svg { width: 12px; height: 12px; }
+.wt-score { margin-left: 2px; padding: 1px 4px; border-radius: 6px; background: rgba(255,255,255,.25); font-size: 10px; }
+.wt-pin.soon { border-style: dashed; opacity: .9; }
+.wt-user { width: 18px; height: 18px; border-radius: 999px; background: var(--electric); border: 3px solid #fff; box-shadow: 0 0 0 6px color-mix(in srgb, var(--electric) 25%, transparent); }
+.wt-stop { width: 26px; height: 26px; border-radius: 999px; background: var(--accent); color: #fff; display: grid; place-items: center; font: 700 12px var(--font-sans); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+.wt-endpoint { width: 16px; height: 16px; border-radius: 4px; background: var(--text); border: 3px solid var(--surface); box-shadow: 0 2px 6px rgba(0,0,0,.3); }
 
 @media print {
   .no-print { display: none !important; }

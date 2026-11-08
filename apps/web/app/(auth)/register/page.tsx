@@ -37,7 +37,7 @@ function RegisterForm() {
       <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
       <p className="text-sm text-muted mt-1">Free for drivers. Operators can list stations after verification.</p>
       <div className="grid grid-cols-2 gap-2 mt-6">
-        {([['driver', 'I drive an EV', Car], ['operator', 'I run chargers', Building2]] as const).map(([v, l, Icon]) => (
+        {([['driver', 'I drive an EV · Wattly Drive', Car], ['operator', 'I run chargers · Wattly Business', Building2]] as const).map(([v, l, Icon]) => (
           <button key={v} type="button" onClick={() => setType(v)} className={cn('rounded-2xl border p-3 text-left transition', type === v ? 'border-accent ring-4 ring-[var(--ring)]' : 'border-border hover:bg-surface-2')}>
             <Icon className={cn('size-5', type === v ? 'text-accent' : 'text-muted')} />
             <div className="text-sm font-medium mt-2">{l}</div>

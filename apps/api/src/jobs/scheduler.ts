@@ -1,4 +1,4 @@
-import { localTime, normalizeTariff, parseHHMM } from '@voltway/shared';
+import { localTime, normalizeTariff, parseHHMM } from '@wattly/shared';
 import { q } from '../db';
 import { notify } from '../services/notifications';
 import { setPortStatus } from '../services/portStatus';
@@ -24,7 +24,7 @@ async function reservationJobs() {
     // Hold the port
     try {
       await controllerFor(r.integration_type)?.reserve?.({ reservationId: r.id, portId: r.port_id, chargePointId: r.cp, ocppConnectorId: r.ocpp_connector_id, expiresAt: new Date(r.end_at), idTag: idTagFor(r.user_id) });
-    } catch { /* charger may refuse — Voltway still holds the slot */ }
+    } catch { /* charger may refuse — Wattly still holds the slot */ }
     if (r.status === 'available') await setPortStatus(r.port_id, 'reserved', sourceFor(r.integration_type));
   }
   // No-shows: 15 minutes after start without a session

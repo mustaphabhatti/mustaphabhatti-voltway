@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
-import { CONNECTOR_TYPES, NOTIFICATION_TYPES } from '@voltway/shared';
+import { CONNECTOR_TYPES, NOTIFICATION_TYPES } from '@wattly/shared';
 import { q, one, tx } from '../db';
 import { requireUser } from '../lib/auth';
 import { badRequest, conflict, forbidden, notFound } from '../lib/errors';
@@ -338,7 +338,7 @@ export async function driverRoutes(app: FastifyInstance) {
       try {
         await controller?.reserve?.({ reservationId: r.id, portId: b.portId, chargePointId: port.cp, ocppConnectorId: port.ocpp_connector_id, expiresAt: end, idTag: idTagFor(u.id) });
       } catch {
-        /* charger may reject; the reservation still stands in Voltway */
+        /* charger may reject; the reservation still stands in Wattly */
       }
       if (port.status === 'available') await setPortStatus(b.portId, 'reserved', port.integration_type === 'ocpp' ? 'live' : port.integration_type === 'simulator' ? 'simulated' : 'operator_reported');
     }

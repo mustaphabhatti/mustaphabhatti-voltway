@@ -25,7 +25,7 @@ export default function Login() {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1, backgroundColor: c.bg }}>
       <ScrollView contentContainerStyle={{ padding: 20, gap: 14 }} keyboardShouldPersistTaps="handled">
-        <T size={26} weight="800">{mode === 'login' ? 'Welcome back' : 'Create your account'}</T>
+        <T size={26} weight="800">{mode === 'login' ? 'Welcome to Wattly Drive' : 'Create your Wattly account'}</T>
         <Row gap={8}><Chip label="Sign in" active={mode === 'login'} onPress={() => setMode('login')} /><Chip label="Create account" active={mode === 'register'} onPress={() => setMode('register')} /></Row>
         {mode === 'register' && <Input label="Full name" value={name} onChangeText={setName} autoComplete="name" />}
         <Input label="Email or phone (+92…)" value={identifier} onChangeText={setIdentifier} autoCapitalize="none" keyboardType="email-address" autoComplete="username" />
@@ -34,8 +34,8 @@ export default function Login() {
         <Button title={mode === 'login' ? 'Sign in' : 'Create account'} onPress={() => go()} loading={busy} disabled={!identifier || password.length < (mode === 'login' ? 1 : 8) || (mode === 'register' && name.length < 2)} />
         <View style={{ marginTop: 16, padding: 14, borderRadius: 14, borderWidth: 1, borderStyle: 'dashed', borderColor: c.border, gap: 8 }}>
           <T size={12} weight="700" muted>DEMO ACCOUNT</T>
-          <T size={12} muted>driver@voltway.demo · Demo1234!</T>
-          <Button title="Use demo driver" variant="secondary" small onPress={() => { setMode('login'); setIdentifier('driver@voltway.demo'); setPassword('Demo1234!'); go('driver@voltway.demo', 'Demo1234!'); }} />
+          <T size={12} muted>driver@wattly.demo · Demo1234!</T>
+          <Button title="Use demo driver" variant="secondary" small onPress={() => { setMode('login'); setIdentifier('driver@wattly.demo'); setPassword('Demo1234!'); go('driver@wattly.demo', 'Demo1234!'); }} />
         </View>
         <T size={11.5} muted>Google and Apple sign-in are available on the web; native sign-in can be enabled with expo-auth-session once client IDs are configured.</T>
       </ScrollView>

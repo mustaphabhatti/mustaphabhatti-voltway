@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { Clock, Star, Zap } from 'lucide-react';
-import { CONNECTOR_LABELS, formatDistance, formatDuration, formatMoney, type ConnectorType } from '@voltway/shared';
+import { CONNECTOR_LABELS, formatDistance, formatDuration, formatMoney, type ConnectorType } from '@wattly/shared';
 import type { Station } from '@/lib/types';
 import { stationTone } from '@/lib/stationColor';
 import { cn } from '@/lib/format';

@@ -2,7 +2,7 @@
 // DEMO DATA. All operators, stations, prices, users and reviews below are
 // fictional and flagged `is_demo = true`. Coordinates are approximate.
 // ─────────────────────────────────────────────────────────────────────────────
-import type { Tariff } from '@voltway/shared';
+import type { Tariff } from '@wattly/shared';
 
 export const DEMO_PASSWORD = 'Demo1234!';
 

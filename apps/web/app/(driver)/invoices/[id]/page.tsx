@@ -1,7 +1,7 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { Printer } from 'lucide-react';
-import { formatMoney } from '@voltway/shared';
+import { formatMoney } from '@wattly/shared';
 import { useFetch } from '@/lib/hooks';
 import { dateTime } from '@/lib/format';
 import { Badge, Button, Card, ErrorState, Skeleton } from '@/components/ui';
@@ -20,7 +20,7 @@ function Invoice() {
       <div className="flex justify-end mb-3 no-print"><Button variant="outline" onClick={() => window.print()}><Printer className="size-4" /> Print / save PDF</Button></div>
       <Card className="p-8">
         <div className="flex justify-between items-start">
-          <Logo />
+          <Logo product="Drive" />
           <div className="text-right"><div className="text-xl font-semibold">Invoice</div><div className="text-sm text-muted font-mono">{i.number}</div><div className="text-sm text-muted">{dateTime(i.issued_at)}</div></div>
         </div>
         {b.demo && <div className="mt-4 rounded-lg bg-violet-soft text-violet text-xs p-2">Demo invoice — processed by the demo payment provider. No money was charged.</div>}

@@ -5,7 +5,7 @@ import { createWriteStream } from 'node:fs';
 import { mkdir } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
-import { AMENITIES, CONNECTOR_CURRENT, CONNECTOR_TYPES, PAYMENT_METHODS, type PortStatus } from '@voltway/shared';
+import { AMENITIES, CONNECTOR_CURRENT, CONNECTOR_TYPES, PAYMENT_METHODS, type PortStatus } from '@wattly/shared';
 import { q, one, tx } from '../db';
 import { requireRole, requireUser } from '../lib/auth';
 import { audit } from '../lib/audit';
@@ -197,7 +197,7 @@ export async function communityRoutes(app: FastifyInstance) {
         `INSERT INTO stations(company_id, name, description, address, city, country, location, timezone, is_24_7, amenities, payment_methods, access_type,
                               listing_status, coming_soon, submitted_by, location_type, host_notes, data_source)
          VALUES ($1,$2,$3,$4,$5,$6, ST_SetSRID(ST_MakePoint($8,$7),4326)::geography, $9,$10,$11,$12,$13,'pending',$14,$15,$16,$17,'community') RETURNING id`,
-        [company.id, b.name, b.locationType === 'residential' ? 'Home charger shared by a Voltway driver.' : 'Added by the Voltway driver community.', b.address, b.city, b.country,
+        [company.id, b.name, b.locationType === 'residential' ? 'Home charger shared on Wattly Network by a Wattly Drive user.' : 'Added to Wattly Network by the Wattly Drive community.', b.address, b.city, b.country,
          b.lat, b.lng, b.timezone, b.is24_7, b.amenities, b.paymentMethods, b.locationType === 'residential' ? 'restricted' : b.accessType, b.comingSoon, u.id, b.locationType, notes],
         c,
       );

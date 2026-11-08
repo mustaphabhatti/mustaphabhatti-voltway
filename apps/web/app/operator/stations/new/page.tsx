@@ -16,7 +16,7 @@ export default function NewStation() {
     setBusy(true);
     try {
       const r = await api.post('/operator/stations', draftToPayload(d));
-      toast('success', 'Station created', r.station.listingStatus === 'pending' ? 'Submitted to Voltway for review.' : 'Saved as a draft until your company is verified.');
+      toast('success', 'Station created', r.station.listingStatus === 'pending' ? 'Submitted to Wattly for review.' : 'Saved as a draft until your company is verified.');
       router.push(`/operator/stations/${r.station.id}`);
     } catch (e: any) {
       toast('error', 'Could not save station', e.message);
@@ -26,7 +26,7 @@ export default function NewStation() {
   };
   return (
     <div className="max-w-5xl">
-      <PageHeader title="Add a station" subtitle="New listings are reviewed by Voltway before drivers can see them." actions={<Button onClick={save} loading={busy}>Create station</Button>} />
+      <PageHeader title="Add a station" subtitle="New listings are reviewed by Wattly before drivers can see them." actions={<Button onClick={save} loading={busy}>Create station</Button>} />
       <StationForm value={d} onChange={setD} showPorts />
       <div className="flex justify-end mt-4"><Button size="lg" onClick={save} loading={busy}>Create station</Button></div>
     </div>

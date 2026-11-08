@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { BatteryMedium, Building2, Car, CreditCard, Home, LifeBuoy, MapPin, Plus, Settings2, Star, Trash2, User, Wallet } from 'lucide-react';
-import { CONNECTOR_LABELS, CONNECTOR_TYPES, CURVE_PROFILES, type ConnectorType, type CurveProfile } from '@voltway/shared';
+import { CONNECTOR_LABELS, CONNECTOR_TYPES, CURVE_PROFILES, type ConnectorType, type CurveProfile } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useFetch } from '@/lib/hooks';
@@ -43,7 +43,7 @@ function Profile() {
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 space-y-5">
       <PageHeader title="Profile" subtitle="Your vehicles, preferences and payment methods." />
-      {params.get('welcome') && <div className="rounded-2xl bg-accent-soft p-4 text-sm"><b>Welcome to Voltway!</b> Add your car so we can show compatible chargers and accurate charging times.</div>}
+      {params.get('welcome') && <div className="rounded-2xl bg-accent-soft p-4 text-sm"><b>Welcome to Wattly!</b> Add your car so we can show compatible chargers and accurate charging times.</div>}
 
       <Card>
         <CardHeader title={<span className="flex items-center gap-2"><Car className="size-4" />My vehicles</span>} subtitle="Battery capacity, charging limits and connectors drive every estimate." action={<Button size="sm" onClick={() => setVehicleModal('new')}><Plus className="size-4" /> Add vehicle</Button>} />
@@ -131,7 +131,7 @@ function Profile() {
                 <button aria-label="Remove" className="text-subtle hover:text-danger" onClick={async () => { await api.del(`/me/payment-methods/${m.id}`); methods.reload(true); }}><Trash2 className="size-4" /></button>
               </div>
             ))}
-            <p className="text-xs text-muted">Card details are tokenised by the payment provider; Voltway never stores card numbers.</p>
+            <p className="text-xs text-muted">Card details are tokenised by the payment provider; Wattly never stores card numbers.</p>
           </div>
         </Card>
         <Card>
@@ -291,7 +291,7 @@ function PaymentModal({ open, onClose, onSaved }: { open: boolean; onClose: () =
   return (
     <Modal open={open} onClose={onClose} title="Add payment method" footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button onClick={save} disabled={type === 'card' && !/^\d{4}$/.test(last4)}>Add</Button></>}>
       <div className="space-y-4">
-        <div className="rounded-xl bg-violet-soft text-violet text-[13px] p-3">Demo mode: methods are stored as references only. In production, the provider&apos;s secure form (e.g. Stripe Elements) tokenises the card and only the token reaches Voltway.</div>
+        <div className="rounded-xl bg-violet-soft text-violet text-[13px] p-3">Demo mode: methods are stored as references only. In production, the provider&apos;s secure form (e.g. Stripe Elements) tokenises the card and only the token reaches Wattly.</div>
         <Field label="Type"><Select value={type} onChange={(e) => { setType(e.target.value as any); setProvider('demo'); }}><option value="card">Credit / debit card</option><option value="wallet">Digital wallet</option><option value="local_gateway">Local payment gateway</option></Select></Field>
         {type === 'card' ? <Field label="Last 4 digits (demo)"><Input value={last4} onChange={(e) => setLast4(e.target.value.replace(/\D/g, '').slice(0, 4))} placeholder="4242" inputMode="numeric" /></Field> : (
           <Field label="Provider"><Select value={provider} onChange={(e) => setProvider(e.target.value)}>{(type === 'wallet' ? ['demo', 'apple_pay', 'google_pay'] : ['demo', 'jazzcash', 'easypaisa', 'raast']).map((p) => <option key={p} value={p}>{p}</option>)}</Select></Field>

@@ -43,7 +43,7 @@ export function summarizePorts(ports: PortLike[], maintenance = false): PortSumm
   return s;
 }
 
-/** Map an OCPP 1.6 ChargePointStatus to a Voltway port status. */
+/** Map an OCPP 1.6 ChargePointStatus to a Wattly port status. */
 export function ocppStatusToPortStatus(status: string, errorCode?: string): PortStatus {
   switch (status) {
     case 'Available': return 'available';
@@ -59,7 +59,7 @@ export function ocppStatusToPortStatus(status: string, errorCode?: string): Port
   }
 }
 
-/** Map an OCPI 2.2.1 EVSE status to a Voltway port status. */
+/** Map an OCPI 2.2.1 EVSE status to a Wattly port status. */
 export function ocpiStatusToPortStatus(status: string): PortStatus {
   switch (status) {
     case 'AVAILABLE': return 'available';

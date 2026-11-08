@@ -1,6 +1,6 @@
 'use client';
 import { Activity, Clock, FlaskConical, Info, Radio, Sparkles, Users, Zap } from 'lucide-react';
-import { CONNECTOR_LABELS, DATA_SOURCE_LABELS, PORT_STATUS_LABELS, type ConnectorType, type DataSource, type PortStatus } from '@voltway/shared';
+import { CONNECTOR_LABELS, DATA_SOURCE_LABELS, PORT_STATUS_LABELS, type ConnectorType, type DataSource, type PortStatus } from '@wattly/shared';
 import { Badge } from '@/components/ui';
 import { cn, timeAgo } from '@/lib/format';
 
@@ -72,7 +72,7 @@ export function SourceBadge({ source, updatedAt, stale, compact }: { source: Dat
   }
   if (source === 'estimated') {
     return (
-      <Badge tone="outline" className="border-dashed" title="Calculated by Voltway — an estimate, not a measurement">
+      <Badge tone="outline" className="border-dashed" title="Calculated by Wattly — an estimate, not a measurement">
         <Sparkles className="size-3" /> Estimated
       </Badge>
     );

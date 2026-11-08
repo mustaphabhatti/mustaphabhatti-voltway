@@ -3,7 +3,7 @@ import { z } from 'zod';
 import {
   AMENITIES, CONNECTOR_TYPES, CONNECTOR_CURRENT, cheapestStartWindow, dailySchedule, estimateCharging, scoreRecommendations,
   type ConnectorType, type RecommendationCandidate, type VehicleChargingProfile, type PortStatus,
-} from '@voltway/shared';
+} from '@wattly/shared';
 import { q, one } from '../db';
 import { requireUser } from '../lib/auth';
 import { badRequest, conflict, notFound } from '../lib/errors';

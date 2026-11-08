@@ -1,6 +1,6 @@
 'use client';
 import { useCallback } from 'react';
-import { summarizePorts } from '@voltway/shared';
+import { summarizePorts } from '@wattly/shared';
 import { useRealtime } from './realtime';
 import type { Station } from './types';
 

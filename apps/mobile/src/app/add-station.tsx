@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { router } from 'expo-router';
-import { CONNECTOR_LABELS, CONNECTOR_TYPES, LOCATION_TYPES, type ConnectorType, type LocationType } from '@voltway/shared';
+import { CONNECTOR_LABELS, CONNECTOR_TYPES, LOCATION_TYPES, type ConnectorType, type LocationType } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useLocation } from '@/lib/location';

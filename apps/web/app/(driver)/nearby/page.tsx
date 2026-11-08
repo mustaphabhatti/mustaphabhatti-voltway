@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Car, Check, Columns3, LocateFixed, MapPin, Sparkles, Trophy } from 'lucide-react';
-import { RECOMMENDATION_MODES, formatDistance, formatDuration, formatMoney, type RecommendationMode } from '@voltway/shared';
+import { RECOMMENDATION_MODES, formatDistance, formatDuration, formatMoney, type RecommendationMode } from '@wattly/shared';
 import { api, qs } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useGeolocation } from '@/lib/geo';
@@ -17,7 +17,7 @@ import { DEFAULT_FILTERS, FilterPanel, QuickFilters, type FilterState } from '@/
 import { EstimatedTag, SourceBadge, TrafficBadge } from '@/components/station/badges';
 import { OUTCOME_STYLE } from '@/components/station/community';
 import { useFetch } from '@/lib/hooks';
-import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, type CheckinOutcome, type CheckinProblem } from '@voltway/shared';
+import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, type CheckinOutcome, type CheckinProblem } from '@wattly/shared';
 import { timeAgo } from '@/lib/format';
 
 const MODES: RecommendationMode[] = ['balanced', 'fastest', 'closest', 'cheapest', 'least_wait'];

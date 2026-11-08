@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
-import { CONNECTOR_LABELS, PORT_STATUSES, PORT_STATUS_LABELS, type ConnectorType, type PortStatus } from '@voltway/shared';
+import { CONNECTOR_LABELS, PORT_STATUSES, PORT_STATUS_LABELS, type ConnectorType, type PortStatus } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/hooks';
 import { useRealtime } from '@/lib/realtime';

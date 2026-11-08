@@ -19,5 +19,5 @@ const NAV = [
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <DashboardShell nav={NAV} badge="Admin" footer={<div className="text-xs text-muted flex items-center gap-2"><Gauge className="size-3.5" />Platform administration</div>}><RequireRole roles={['admin']}>{children}</RequireRole></DashboardShell>;
+  return <DashboardShell nav={NAV} badge="Admin" footer={<div className="text-xs text-muted flex items-center gap-2"><Gauge className="size-3.5" />Wattly platform administration</div>}><RequireRole roles={['admin']}>{children}</RequireRole></DashboardShell>;
 }

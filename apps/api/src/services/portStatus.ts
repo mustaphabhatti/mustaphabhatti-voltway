@@ -1,4 +1,4 @@
-import { PORT_STATUS_LABELS, summarizePorts, type DataSource, type PortStatus } from '@voltway/shared';
+import { PORT_STATUS_LABELS, summarizePorts, type DataSource, type PortStatus } from '@wattly/shared';
 import { q, one } from '../db';
 import { publish } from '../realtime/hub';
 import { notify, notifyFavorites } from './notifications';

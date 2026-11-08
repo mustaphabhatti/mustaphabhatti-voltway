@@ -1,6 +1,6 @@
 // Seeds the database with clearly-labelled DEMO data.  Run: npm run db:seed
 import bcrypt from 'bcryptjs';
-import { CONNECTOR_CURRENT, estimateCharging, normalizeTariff, costForEnergyChunks, localTime, type ConnectorType } from '@voltway/shared';
+import { CONNECTOR_CURRENT, estimateCharging, normalizeTariff, costForEnergyChunks, localTime, type ConnectorType } from '@wattly/shared';
 import { pool } from '../src/db';
 import {
   COMPANIES, DEMO_PASSWORD, FIRST_NAMES, LAST_NAMES, PLACES, PROFILES, REVIEW_TEXT, ROAD_EDGES, ROAD_NODES, STATIONS, VEHICLE_MODELS,
@@ -51,8 +51,8 @@ async function main() {
     (await pool.query(
       `INSERT INTO users(email, phone, password_hash, full_name, role, created_at, last_login_at) VALUES ($1,$2,$3,$4,$5, now() - make_interval(days => $6), now() - interval '1 day') RETURNING id`,
       [email, phone, hash, name, role, daysAgo])).rows[0].id as string;
-  const adminId = await mkUser('admin@voltway.demo', 'Platform Admin', 'admin', null, 200);
-  const driverId = await mkUser('driver@voltway.demo', 'Zara Ahmed', 'driver', '+923001234567', 95);
+  const adminId = await mkUser('admin@wattly.demo', 'Platform Admin', 'admin', null, 200);
+  const driverId = await mkUser('driver@wattly.demo', 'Zara Ahmed', 'driver', '+923001234567', 95);
   const drivers: string[] = [driverId];
   for (let i = 0; i < 46; i++) {
     const name = `${pick(FIRST_NAMES)} ${pick(LAST_NAMES)}`;
@@ -252,7 +252,7 @@ async function main() {
   // Invoices for the demo driver
   await pool.query(
     `INSERT INTO invoices(number, session_id, user_id, company_id, amount, currency, breakdown, payment_status, payment_provider, provider_ref, issued_at)
-     SELECT 'VW-' || nextval('invoice_number_seq'), cs.id, cs.user_id, s.company_id, cs.cost_total, cs.currency,
+     SELECT 'WT-' || nextval('invoice_number_seq'), cs.id, cs.user_id, s.company_id, cs.cost_total, cs.currency,
             cs.cost_breakdown || '{"demo": true, "paymentMethod": "Visa ending 4242 (demo)"}'::jsonb, 'paid', 'demo', 'demo_hist_' || substr(cs.id::text, 1, 8), cs.ended_at
        FROM charging_sessions cs JOIN stations s ON s.id = cs.station_id WHERE cs.user_id = $1 ORDER BY cs.started_at`, [driverId]);
   console.log(`  ${sessionRows.length} sessions, ${eventRows.length} status events`);
@@ -316,7 +316,7 @@ async function main() {
   // ── Community: check-ins, community company, driver-submitted & coming-soon stations ──
   const communityCo = (await pool.query(
     `INSERT INTO companies(name, slug, legal_name, email, country, brand_color, description, verification_status, verified_at, is_community, is_demo)
-     VALUES ('Voltway Community', 'community', 'Voltway', 'community@voltway.example', 'PK', '#64748b', 'Stations added by Voltway drivers.', 'verified', now(), true, true) RETURNING id`)).rows[0].id;
+     VALUES ('Wattly Network Community', 'community', 'Wattly', 'community@wattly.example', 'PK', '#64748b', 'Stations added to Wattly Network by Wattly Drive users.', 'verified', now(), true, true) RETURNING id`)).rows[0].id;
   const CHECKIN_COMMENTS: Record<string, string[]> = {
     charged: ['Quick and easy, no issues.', 'Worked first time with the app.', 'Got close to full rated power until ~60%.', 'Smooth session, café nearby while waiting.', 'All good, bays were clean.', ''],
     charging_now: ['Charging now, should be done in 30 min.', 'Plugged in on the fast charger.', ''],
@@ -352,7 +352,7 @@ async function main() {
   // Community-submitted station awaiting review + an approved "coming soon" listing
   await pool.query(
     `INSERT INTO stations(company_id, name, description, address, city, country, location, timezone, listing_status, submitted_by, data_source, location_type, host_notes, is_demo, amenities)
-     VALUES ($1, 'Hotel One Charging Bay', 'Added by the Voltway driver community.', 'Main Boulevard, Gulberg II', 'Lahore', 'PK', ST_SetSRID(ST_MakePoint(74.3405, 31.5265),4326)::geography,
+     VALUES ($1, 'Hotel One Charging Bay', 'Added by the Wattly driver community.', 'Main Boulevard, Gulberg II', 'Lahore', 'PK', ST_SetSRID(ST_MakePoint(74.3405, 31.5265),4326)::geography,
              'Asia/Karachi', 'pending', $2, 'community', 'destination', 'Price: free for hotel guests', true, '{restaurant,parking}')`, [communityCo, drivers[11]]);
   const pend = await pool.query(`SELECT id FROM stations WHERE name = 'Hotel One Charging Bay'`);
   await pool.query(`INSERT INTO ports(station_id, label, connector_type, current_type, max_power_kw, status, status_source, status_updated_at) VALUES ($1,'AC-1','Type2','AC',11,'unknown','user_reported',now())`, [pend.rows[0].id]);
@@ -367,12 +367,12 @@ async function main() {
   await insertMany('road_nodes', ['id', 'name', 'lat', 'lng'], ROAD_NODES.map((n) => [...n]));
   await insertMany('road_edges', ['a', 'b', 'road', 'speed_kmh'], ROAD_EDGES.map((e) => [...e]));
 
-  await pool.query(`INSERT INTO platform_settings(key, value) VALUES ('platform', $1)`, [{ name: 'Voltway', supportEmail: 'support@voltway.example', defaultCity: 'Lahore', maintenanceBanner: '' }]);
+  await pool.query(`INSERT INTO platform_settings(key, value) VALUES ('platform', $1)`, [{ name: 'Wattly', supportEmail: 'support@wattly.example', defaultCity: 'Lahore', maintenanceBanner: '' }]);
 
   console.log(`\n✔ Demo data ready: ${stationRows.length} stations, ${stationRows.reduce((a, s) => a + s.ports.length, 0)} ports.`);
-  console.log(`  Driver:   driver@voltway.demo / ${DEMO_PASSWORD}`);
+  console.log(`  Driver:   driver@wattly.demo / ${DEMO_PASSWORD}`);
   console.log(`  Operator: ops@voltgrid.demo / ${DEMO_PASSWORD}`);
-  console.log(`  Admin:    admin@voltway.demo / ${DEMO_PASSWORD}`);
+  console.log(`  Admin:    admin@wattly.demo / ${DEMO_PASSWORD}`);
   void localTime;
   await pool.end();
 }

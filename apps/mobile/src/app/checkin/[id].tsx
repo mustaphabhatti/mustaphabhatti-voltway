@@ -3,7 +3,7 @@ import { Alert, Image, Pressable, ScrollView, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import type { ImagePickerAsset } from 'expo-image-picker';
-import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, type CheckinOutcome, type CheckinProblem } from '@voltway/shared';
+import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, type CheckinOutcome, type CheckinProblem } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/hooks';
 import { pickPhoto, uploadStationPhoto } from '@/lib/photos';

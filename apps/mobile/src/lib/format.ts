@@ -1,4 +1,4 @@
-export { formatDistance, formatDuration, formatMoney } from '@voltway/shared';
+export { formatDistance, formatDuration, formatMoney } from '@wattly/shared';
 
 export function timeAgo(iso: string | null | undefined) {
   if (!iso) return 'never';

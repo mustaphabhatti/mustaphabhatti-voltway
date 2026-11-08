@@ -1,4 +1,4 @@
-import { decodePolyline } from '@voltway/shared';
+import { decodePolyline } from '@wattly/shared';
 import { config } from '../../config';
 import { fetchJson } from '../health';
 import type { RouteRequest, RouteResult, RoutingProvider, RouteStep } from './types';

@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { API_URL } from './config';
 
-const TOKEN_KEY = 'voltway.session';
+const TOKEN_KEY = 'wattly.session';
 let token: string | null = null;
 
 export async function loadToken() {
@@ -33,7 +33,7 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
       body: method === 'GET' ? undefined : isForm ? (body as FormData) : JSON.stringify(body ?? {}),
     });
   } catch {
-    throw new ApiError(0, `Can't reach Voltway at ${API_URL}. Check your connection.`);
+    throw new ApiError(0, `Can't reach Wattly at ${API_URL}. Check your connection.`);
   }
   const text = await res.text();
   let data: any = null;

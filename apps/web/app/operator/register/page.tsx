@@ -21,11 +21,11 @@ export default function RegisterCompany() {
   };
   return (
     <div className="min-h-dvh">
-      <header className="h-14 border-b border-border bg-surface flex items-center px-5"><Logo /><Link href="/" className="ml-auto text-sm text-muted">Back to app</Link></header>
+      <header className="h-14 border-b border-border bg-surface flex items-center px-5"><Logo product="Business" /><Link href="/" className="ml-auto text-sm text-muted">Back to app</Link></header>
       <div className="max-w-5xl mx-auto p-4 md:p-8 grid lg:grid-cols-[1fr_340px] gap-6">
         <Card className="p-6">
-          <h1 className="text-2xl font-semibold tracking-tight">Register your charging company</h1>
-          <p className="text-sm text-muted mt-1">Tell us about your business. Our team verifies every operator before stations go live.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">Join Wattly Business</h1>
+          <p className="text-sm text-muted mt-1">Register your charging company. We verify every operator before its stations join Wattly Network.</p>
           {!loading && !me.user ? (
             <div className="mt-6 rounded-xl bg-surface-2 p-4 text-sm">First <Link href="/register?type=operator" className="text-accent font-medium">create an operator account</Link> or <Link href="/login?next=/operator/register" className="text-accent font-medium">sign in</Link>.</div>
           ) : me.companies?.length ? (
@@ -50,7 +50,7 @@ export default function RegisterCompany() {
           )}
         </Card>
         <div className="space-y-3">
-          {[[Building2, 'Register', 'Company details and a contact person.'], [FileCheck2, 'Verify', 'Upload incorporation documents. An admin reviews ownership.'], [MapPinned, 'List stations', 'Add stations, ports, prices and opening hours.'], [BadgeCheck, 'Go live', 'Approved listings appear to drivers with a verified badge.']].map(([Icon, t, d]: any, i) => (
+          {[[Building2, 'Register', 'Company details and a contact person.'], [FileCheck2, 'Verify', 'Upload incorporation documents. An admin reviews ownership.'], [MapPinned, 'List stations', 'Add stations, ports, prices and opening hours.'], [BadgeCheck, 'Join Wattly Network', 'Approved stations appear in Wattly Drive with a verified badge.']].map(([Icon, t, d]: any, i) => (
             <Card key={t} className="p-4 flex gap-3"><div className="size-9 rounded-xl bg-accent-soft text-accent grid place-items-center shrink-0"><Icon className="size-4" /></div><div><div className="text-sm font-semibold">{i + 1}. {t}</div><div className="text-[13px] text-muted">{d}</div></div></Card>
           ))}
         </div>

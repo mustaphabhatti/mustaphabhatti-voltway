@@ -1,4 +1,4 @@
-import { localTime } from '@voltway/shared';
+import { localTime } from '@wattly/shared';
 import type { TrafficLevel } from './types';
 
 /**

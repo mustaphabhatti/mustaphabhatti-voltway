@@ -1,4 +1,4 @@
-import type { LatLng } from '@voltway/shared';
+import type { LatLng } from '@wattly/shared';
 
 export type TrafficLevel = 'light' | 'moderate' | 'heavy' | 'unknown';
 

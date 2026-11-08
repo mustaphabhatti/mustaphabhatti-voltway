@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, BatteryCharging, Clock, Gauge, Info, PiggyBank, Thermometer, Zap } from 'lucide-react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { CONNECTOR_LABELS, formatDuration, formatMoney, type ConnectorType } from "@voltway/shared";
+import { CONNECTOR_LABELS, formatDuration, formatMoney, type ConnectorType } from "@wattly/shared";
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useDebounced, useFetch } from '@/lib/hooks';

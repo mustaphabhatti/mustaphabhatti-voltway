@@ -1,5 +1,5 @@
 'use client';
-import { CONNECTOR_LABELS } from '@voltway/shared';
+import { CONNECTOR_LABELS } from '@wattly/shared';
 import type { Port } from '@/lib/types';
 import { cn } from '@/lib/format';
 import { PortStatusBadge, SourceBadge } from './badges';

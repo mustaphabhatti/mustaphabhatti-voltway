@@ -17,7 +17,7 @@ import { notify } from '../services/notifications';
 import { analytics } from './operator';
 
 export const DEFAULT_SETTINGS: Record<string, any> = {
-  platform: { name: 'Voltway', supportEmail: 'support@voltway.example', defaultCity: 'Lahore', maintenanceBanner: '' },
+  platform: { name: 'Wattly', supportEmail: 'support@wattly.example', defaultCity: 'Lahore', maintenanceBanner: '' },
   pricing_rules: { platformFeePercent: 0, maxPricePerKwh: { PKR: 250, AED: 3 }, requireTimeOfUseDisclosure: true },
   notifications: { reservationReminderMinutes: 15, peakWarningMinutes: 30 },
   demo: { showDemoBanner: true },

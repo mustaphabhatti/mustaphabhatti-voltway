@@ -1,6 +1,6 @@
 'use client';
 import { SlidersHorizontal, X } from 'lucide-react';
-import { AMENITY_LABELS, CONNECTOR_LABELS, LOCATION_TYPES, type Amenity, type ConnectorType, type LocationType } from '@voltway/shared';
+import { AMENITY_LABELS, CONNECTOR_LABELS, LOCATION_TYPES, type Amenity, type ConnectorType, type LocationType } from '@wattly/shared';
 import { Button, Chip, Field, Select, Slider, Toggle } from '@/components/ui';
 import { useFetch } from '@/lib/hooks';
 

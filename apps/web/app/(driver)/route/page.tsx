@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, ArrowDownUp, BatteryCharging, ChevronDown, Clock, ExternalLink, Flag, Info, LocateFixed, MapPin, Navigation, Route as RouteIcon, Timer, Zap } from 'lucide-react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { formatDistance, formatDuration, formatMoney } from '@voltway/shared';
+import { formatDistance, formatDuration, formatMoney } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useGeolocation } from '@/lib/geo';
@@ -151,7 +151,7 @@ export default function RoutePlannerPage() {
         {!isDesktop && <Button size="sm" variant="ghost" onClick={() => setShowForm(true)}>Edit</Button>}
       </div>
       {result.approximate && (
-        <div className="rounded-xl bg-warning-soft text-[12.5px] p-3 flex gap-2"><Info className="size-4 text-warning shrink-0 mt-0.5" /><span>No online routing service is reachable, so routes come from Voltway&apos;s offline highway graph. Distances and times are approximate; use the navigation hand-off for turn-by-turn guidance.</span></div>
+        <div className="rounded-xl bg-warning-soft text-[12.5px] p-3 flex gap-2"><Info className="size-4 text-warning shrink-0 mt-0.5" /><span>No online routing service is reachable, so routes come from Wattly&apos;s offline highway graph. Distances and times are approximate; use the navigation hand-off for turn-by-turn guidance.</span></div>
       )}
       <div className="space-y-2">
         {result.options.map((o: any, i: number) => (

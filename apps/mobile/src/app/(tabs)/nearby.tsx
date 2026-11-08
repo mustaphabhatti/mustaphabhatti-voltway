@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, ScrollView, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, RECOMMENDATION_MODES, formatDistance, formatDuration, formatMoney, type RecommendationMode } from '@voltway/shared';
+import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, RECOMMENDATION_MODES, formatDistance, formatDuration, formatMoney, type RecommendationMode } from '@wattly/shared';
 import { api, qs } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useDebounced, useFetch } from '@/lib/hooks';

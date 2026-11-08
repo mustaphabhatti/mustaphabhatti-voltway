@@ -1,5 +1,5 @@
 {
-  "name": "@voltway/web",
+  "name": "@wattly/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@voltway/shared": "*",
+    "@wattly/shared": "*",
     "geist": "^1.9.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.70.0",

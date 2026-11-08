@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { AlertTriangle, BatteryCharging, CalendarClock, MapPinned, Plus, Star, Wallet, Zap } from 'lucide-react';
-import { PORT_STATUS_LABELS, formatMoney, type PortStatus } from '@voltway/shared';
+import { PORT_STATUS_LABELS, formatMoney, type PortStatus } from '@wattly/shared';
 import { useAuth } from '@/lib/auth';
 import { useFetch } from '@/lib/hooks';
 import { timeAgo } from '@/lib/format';

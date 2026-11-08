@@ -15,7 +15,7 @@ export default function Account() {
   if (!me.user)
     return (
       <ScrollView style={{ backgroundColor: c.bg }} contentContainerStyle={{ padding: 14 }}>
-        <Empty icon="flash-outline" title="Welcome to Voltway" body="Sign in to save your car, start charging, check in and plan EV routes." action={<Button title="Sign in or create account" onPress={() => router.push('/login')} />} />
+        <Empty icon="flash-outline" title="Welcome to Wattly Drive" body="Sign in to save your car, start charging, check in and plan EV routes." action={<Button title="Sign in or create account" onPress={() => router.push('/login')} />} />
         <T size={11} muted style={{ textAlign: 'center' }}>Server: {API_URL}</T>
       </ScrollView>
     );
@@ -65,7 +65,7 @@ export default function Account() {
         <Item icon="add-circle-outline" label="Add a missing station" href="/add-station" />
       </Card>
       <Button title="Sign out" variant="outline" icon="log-out-outline" onPress={logout} />
-      <T size={11} muted style={{ textAlign: 'center' }}>Operators and admins: use the Voltway web dashboard.</T>
+      <T size={11} muted style={{ textAlign: 'center' }}>Charging companies: manage your stations in Wattly Business on the web.</T>
     </ScrollView>
   );
 }

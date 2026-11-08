@@ -7,9 +7,9 @@ import { Button, Field, Input } from '@/components/ui';
 import { SocialButtons } from '../SocialButtons';
 
 const DEMO = [
-  { label: 'Driver', id: 'driver@voltway.demo' },
-  { label: 'Operator', id: 'ops@voltgrid.demo' },
-  { label: 'Admin', id: 'admin@voltway.demo' },
+  { label: 'Drive', id: 'driver@wattly.demo' },
+  { label: 'Business', id: 'ops@voltgrid.demo' },
+  { label: 'Admin', id: 'admin@wattly.demo' },
 ];
 
 function LoginForm() {
@@ -46,7 +46,7 @@ function LoginForm() {
       </form>
       <div className="my-5 flex items-center gap-3 text-xs text-subtle"><div className="h-px bg-border flex-1" />or continue with<div className="h-px bg-border flex-1" /></div>
       <SocialButtons next={next || '/'} />
-      <p className="text-sm text-muted mt-6 text-center">New to Voltway? <Link href="/register" className="text-accent font-medium">Create an account</Link></p>
+      <p className="text-sm text-muted mt-6 text-center">New to Wattly? <Link href="/register" className="text-accent font-medium">Create an account</Link></p>
       <div className="mt-8 rounded-2xl border border-dashed border-border p-4">
         <div className="text-xs font-semibold text-muted uppercase tracking-wide">Demo accounts</div>
         <p className="text-xs text-muted mt-1">Password for all: <code className="font-mono">Demo1234!</code></p>

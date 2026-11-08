@@ -1,4 +1,4 @@
-import { haversineKm, type LatLng } from '@voltway/shared';
+import { haversineKm, type LatLng } from '@wattly/shared';
 import { q } from '../../db';
 import { typicalTrafficFactor } from './traffic';
 import type { RouteRequest, RouteResult, RoutingProvider, RouteStep } from './types';

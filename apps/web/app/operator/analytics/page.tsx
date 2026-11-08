@@ -22,7 +22,7 @@ export default function OperatorAnalytics() {
     const blob = new Blob([rows.map((r) => r.join(',')).join('\n')], { type: 'text/csv' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `voltway-analytics-${f}-to-${iso(new Date(t))}.csv`;
+    a.download = `wattly-analytics-${f}-to-${iso(new Date(t))}.csv`;
     a.click();
   };
   return (

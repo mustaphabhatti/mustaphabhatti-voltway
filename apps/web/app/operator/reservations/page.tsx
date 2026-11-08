@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { CalendarClock } from 'lucide-react';
-import { formatMoney } from '@voltway/shared';
+import { formatMoney } from '@wattly/shared';
 import { useFetch } from '@/lib/hooks';
 import { dateTime } from '@/lib/format';
 import { Badge, Card, EmptyState, ErrorState, PageHeader, Segmented, SkeletonList, Table } from '@/components/ui';

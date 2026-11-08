@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { AlertOctagon, Camera, CheckCircle2, Clock, Hourglass, ImagePlus, MessageCircle, PlugZap, ShieldCheck, Trash2, Users } from 'lucide-react';
-import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, reliabilityLabel, type CheckinOutcome, type CheckinProblem } from '@voltway/shared';
+import { CHECKIN_OUTCOMES, CHECKIN_PROBLEMS, reliabilityLabel, type CheckinOutcome, type CheckinProblem } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useFetch } from '@/lib/hooks';

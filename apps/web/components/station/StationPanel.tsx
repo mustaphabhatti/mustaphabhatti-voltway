@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { BadgeCheck, BellRing, Clock, ExternalLink, Heart, Hourglass, Star, X, Zap } from 'lucide-react';
-import { AMENITY_LABELS, CONNECTOR_LABELS, formatDistance, formatDuration, formatMoney, type Amenity } from '@voltway/shared';
+import { AMENITY_LABELS, CONNECTOR_LABELS, formatDistance, formatDuration, formatMoney, type Amenity } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useToast } from '@/lib/toast';

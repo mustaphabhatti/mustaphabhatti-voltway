@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Copy, ExternalLink, ImagePlus, Plug, Plus, Save, Send, Trash2, Wrench, X } from 'lucide-react';
-import { PORT_STATUSES, PORT_STATUS_LABELS, CONNECTOR_LABELS } from '@voltway/shared';
+import { PORT_STATUSES, PORT_STATUS_LABELS, CONNECTOR_LABELS } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/hooks';
 import { useToast } from '@/lib/toast';
@@ -54,7 +54,7 @@ export default function EditStation() {
         </>}
       />
       {s.listingStatus === 'rejected' && s.rejectionReason && <div className="rounded-2xl bg-danger-soft text-danger p-4 mb-4 text-sm"><b>Listing rejected:</b> {s.rejectionReason} Fix the details and submit again.</div>}
-      {s.listingStatus === 'pending' && <div className="rounded-2xl bg-warning-soft p-4 mb-4 text-sm">This listing is waiting for Voltway review. It isn&apos;t visible to drivers yet.</div>}
+      {s.listingStatus === 'pending' && <div className="rounded-2xl bg-warning-soft p-4 mb-4 text-sm">This listing is waiting for Wattly review. It isn&apos;t visible to drivers yet.</div>}
       {s.maintenanceMode && <div className="rounded-2xl bg-violet-soft text-violet p-4 mb-4 text-sm"><b>Maintenance mode is on.</b> {s.maintenanceNote} Ports show as out of service and favorites were notified.</div>}
 
       <Segmented value={tab} onChange={setTab} className="mb-4" options={[{ value: 'details', label: 'Details' }, { value: 'ports', label: `Ports (${s.ports.length})` }, { value: 'photos', label: `Photos (${s.images.length})` }, { value: 'integration', label: 'Data connection' }]} />
@@ -159,7 +159,7 @@ function IntegrationTab({ station: s, chargePoints, onChange }: { station: Stati
   return (
     <div className="grid lg:grid-cols-2 gap-4">
       <Card>
-        <CardHeader title="OCPP 1.6J chargers" subtitle="Point your charger's central system URL at Voltway to report live status and accept remote start/stop." />
+        <CardHeader title="Connect chargers to Wattly Network" subtitle="OCPP 1.6J: point your charger's central system URL at Wattly Network to report live status and accept remote start/stop." />
         <div className="px-5 pb-5 space-y-3">
           {chargePoints.length === 0 && <p className="text-sm text-muted">No chargers registered.</p>}
           {chargePoints.map((c) => (
@@ -193,7 +193,7 @@ function IntegrationTab({ station: s, chargePoints, onChange }: { station: Stati
           <div className="flex items-center justify-between"><span className="text-muted">Station status</span><OperationalBadge status={s.status.operational} /></div>
           <div className="flex items-center justify-between"><span className="text-muted">Shown to drivers as</span><SourceBadge source={s.status.source} updatedAt={s.status.updatedAt} stale={s.status.stale} /></div>
           <div className="flex items-center justify-between"><span className="text-muted">Remote start/stop</span><span>{s.integration.supportsRemoteStart ? 'Supported' : 'Not available'}</span></div>
-          <p className="text-xs text-muted pt-2">Voltway never shows manual or simulated data as live. OCPI roaming connections are configured by the platform team (Admin → Integrations).</p>
+          <p className="text-xs text-muted pt-2">Wattly never shows manual or simulated data as live. OCPI roaming connections are configured by the platform team (Admin → Integrations).</p>
         </div>
       </Card>
     </div>

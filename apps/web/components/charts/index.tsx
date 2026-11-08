@@ -2,7 +2,7 @@
 import { useMemo, useState } from 'react';
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { BatteryCharging, Clock, Gauge, Star, Users, Wallet, Zap } from 'lucide-react';
-import { PORT_STATUS_LABELS, formatDuration, formatMoney, type PortStatus } from '@voltway/shared';
+import { PORT_STATUS_LABELS, formatDuration, formatMoney, type PortStatus } from '@wattly/shared';
 import { Card, CardHeader, Segmented, Stat, Table } from '@/components/ui';
 import { STATUS_STYLE } from '@/components/station/badges';
 import { pct, shortDate } from '@/lib/format';

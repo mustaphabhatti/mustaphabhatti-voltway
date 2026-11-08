@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { formatDistance, formatDuration, formatMoney } from '@voltway/shared';
+import { formatDistance, formatDuration, formatMoney } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useDebounced, useFetch } from '@/lib/hooks';

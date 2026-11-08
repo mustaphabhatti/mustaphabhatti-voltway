@@ -27,7 +27,7 @@ export function DriverShell({ children }: { children: ReactNode }) {
     <div className="h-dvh flex flex-col">
       <DemoBanner />
       <header className="h-14 shrink-0 border-b border-border bg-surface/90 backdrop-blur z-[1100] flex items-center gap-4 px-3 md:px-5">
-        <Logo />
+        <Logo product="Drive" />
         <nav className="hidden lg:flex items-center gap-1 ml-4" aria-label="Main">
           {DRIVER_NAV.map((n) => (
             <Link key={n.href} href={n.href} className={cn('flex items-center gap-2 h-9 px-3 rounded-lg text-[13.5px] font-medium transition', active(n.href) ? 'bg-surface-2 text-text' : 'text-muted hover:text-text hover:bg-surface-2/60')}>

@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { BatteryCharging, Building2, ChevronRight, MapPinned, PlugZap, Users, Wallet, Zap } from 'lucide-react';
-import { formatMoney } from '@voltway/shared';
+import { formatMoney } from '@wattly/shared';
 import { useFetch } from '@/lib/hooks';
 import { shortDate } from '@/lib/format';
 import { Card, CardHeader, ErrorState, PageHeader, Skeleton, Stat } from '@/components/ui';

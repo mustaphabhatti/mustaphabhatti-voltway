@@ -4,11 +4,11 @@
     "preview": {
       "distribution": "internal",
       "android": { "buildType": "apk" },
-      "env": { "EXPO_PUBLIC_API_URL": "https://api.your-voltway-domain.example" }
+      "env": { "EXPO_PUBLIC_API_URL": "https://api.your-wattly-domain.example" }
     },
     "production": {
       "autoIncrement": true,
-      "env": { "EXPO_PUBLIC_API_URL": "https://api.your-voltway-domain.example" }
+      "env": { "EXPO_PUBLIC_API_URL": "https://api.your-wattly-domain.example" }
     }
   },
   "submit": { "production": {} }

@@ -1,5 +1,5 @@
 import { FlatList, RefreshControl } from 'react-native';
-import { NOTIFICATION_LABELS, NOTIFICATION_TYPES } from '@voltway/shared';
+import { NOTIFICATION_LABELS, NOTIFICATION_TYPES } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useFetch } from '@/lib/hooks';

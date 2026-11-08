@@ -4,7 +4,7 @@
 // EVSE status in sync (source = 'live').
 // integration.config = { locationsUrl: string, token: string }
 // ─────────────────────────────────────────────────────────────────────────────
-import { ocpiStatusToPortStatus, type ConnectorType } from '@voltway/shared';
+import { ocpiStatusToPortStatus, type ConnectorType } from '@wattly/shared';
 import { q, one } from '../../db';
 import { fetchJson, reportError, reportOk } from '../health';
 

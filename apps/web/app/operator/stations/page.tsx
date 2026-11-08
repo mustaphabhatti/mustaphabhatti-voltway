@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { MapPinned, Plus, Search } from 'lucide-react';
-import { formatMoney } from '@voltway/shared';
+import { formatMoney } from '@wattly/shared';
 import { useFetch } from '@/lib/hooks';
 import { timeAgo } from '@/lib/format';
 import type { Station } from '@/lib/types';

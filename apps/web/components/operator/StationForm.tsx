@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
-import { AMENITY_LABELS, CONNECTOR_LABELS, CONNECTOR_TYPES, PAYMENT_METHOD_LABELS, type Amenity, type ConnectorType, type PaymentMethodKind } from '@voltway/shared';
+import { AMENITY_LABELS, CONNECTOR_LABELS, CONNECTOR_TYPES, PAYMENT_METHOD_LABELS, type Amenity, type ConnectorType, type PaymentMethodKind } from '@wattly/shared';
 import { useFetch } from '@/lib/hooks';
 import { Button, Card, CardHeader, Chip, Field, Input, Select, Textarea, Toggle } from '@/components/ui';
 import { Map } from '@/components/map';

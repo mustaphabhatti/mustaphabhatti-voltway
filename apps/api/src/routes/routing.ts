@@ -3,7 +3,7 @@ import { z } from 'zod';
 import {
   CONNECTOR_CURRENT, PLAN_STRATEGIES, normalizeTariff, planRoute, rateAt, summarizePorts,
   type ConnectorType, type LatLng, type PlanStrategy, type RouteCandidate,
-} from '@voltway/shared';
+} from '@wattly/shared';
 import { q } from '../db';
 import { badRequest } from '../lib/errors';
 import { parse } from '../lib/validate';

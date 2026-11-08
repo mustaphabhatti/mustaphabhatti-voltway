@@ -63,7 +63,7 @@ export type DataSource =
   | 'simulated' // produced by the built-in demo simulator — NOT real
   | 'operator_reported' // manually set by the operator in the dashboard
   | 'user_reported' // reported by a driver
-  | 'estimated' // computed / predicted by Voltway
+  | 'estimated' // computed / predicted by Wattly
   | 'static'; // static listing information
 
 export const DATA_SOURCE_LABELS: Record<DataSource, string> = {
@@ -125,7 +125,7 @@ export const PAYMENT_METHODS = ['card', 'app', 'rfid', 'cash', 'wallet', 'local_
 export type PaymentMethodKind = (typeof PAYMENT_METHODS)[number];
 export const PAYMENT_METHOD_LABELS: Record<PaymentMethodKind, string> = {
   card: 'Credit / debit card',
-  app: 'Voltway app',
+  app: 'Wattly app',
   rfid: 'RFID card',
   cash: 'Cash',
   wallet: 'Mobile wallet',

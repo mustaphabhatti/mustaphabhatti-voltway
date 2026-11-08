@@ -7,7 +7,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { WebSocket } from 'ws';
 import bcrypt from 'bcryptjs';
-import { ocppStatusToPortStatus } from '@voltway/shared';
+import { ocppStatusToPortStatus } from '@wattly/shared';
 import { config } from '../../config';
 import { q, one } from '../../db';
 import type { ChargingController } from './types';

@@ -12,7 +12,7 @@ import {
   type ConnectorType,
   type DataSource,
   type PortStatus,
-} from '@voltway/shared';
+} from '@wattly/shared';
 import { q, one, type Queryable, pool } from '../db';
 import { typicalTrafficFactor } from '../integrations/maps/traffic';
 

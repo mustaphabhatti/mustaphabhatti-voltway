@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { CONNECTOR_LABELS, formatDistance, formatDuration, formatMoney } from '@voltway/shared';
+import { CONNECTOR_LABELS, formatDistance, formatDuration, formatMoney } from '@wattly/shared';
 import type { Station } from '@/lib/types';
 import { stationHex, useColors } from '@/lib/theme';
 import { Badge, Card, Row, ScorePill, SourceBadge, T } from './ui';

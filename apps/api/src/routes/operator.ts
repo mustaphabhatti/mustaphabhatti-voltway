@@ -6,7 +6,7 @@ import { createWriteStream } from 'node:fs';
 import { mkdir } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
-import { AMENITIES, CONNECTOR_CURRENT, CONNECTOR_TYPES, PAYMENT_METHODS, PORT_STATUSES, type PortStatus } from '@voltway/shared';
+import { AMENITIES, CONNECTOR_CURRENT, CONNECTOR_TYPES, PAYMENT_METHODS, PORT_STATUSES, type PortStatus } from '@wattly/shared';
 import { config } from '../config';
 import { q, one, tx } from '../db';
 import { assertCompanyAccess, requireRole, requireUser, type AuthUser } from '../lib/auth';

@@ -24,7 +24,7 @@ export async function fetchJson<T = any>(url: string, init: RequestInit & { time
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), init.timeoutMs ?? 6000);
   try {
-    const res = await fetch(url, { ...init, signal: ctrl.signal, headers: { 'User-Agent': 'Voltway/0.1 (EV charging platform)', ...(init.headers ?? {}) } });
+    const res = await fetch(url, { ...init, signal: ctrl.signal, headers: { 'User-Agent': 'Wattly/0.1 (EV charging platform)', ...(init.headers ?? {}) } });
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     return (await res.json()) as T;
   } finally {

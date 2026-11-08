@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { MapPinPlus, Plus, Trash2 } from 'lucide-react';
-import { AMENITY_LABELS, CONNECTOR_LABELS, CONNECTOR_TYPES, LOCATION_TYPES, PAYMENT_METHOD_LABELS, type Amenity, type ConnectorType, type LocationType, type PaymentMethodKind } from '@voltway/shared';
+import { AMENITY_LABELS, CONNECTOR_LABELS, CONNECTOR_TYPES, LOCATION_TYPES, PAYMENT_METHOD_LABELS, type Amenity, type ConnectorType, type LocationType, type PaymentMethodKind } from '@wattly/shared';
 import { api } from '@/lib/api';
 import { useGeolocation } from '@/lib/geo';
 import { useToast } from '@/lib/toast';
@@ -35,7 +35,7 @@ function AddStation() {
   };
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-4">
-      <PageHeader title="Add a charging station" subtitle="Know a charger that isn't on the map, a new one under construction, or want to share your home charger? Add it for other drivers." />
+      <PageHeader title="Add a charging station" subtitle="Grow Wattly Network: know a charger that isn't on the map, a new one under construction, or want to share your home charger? Add it for other drivers." />
       <Card>
         <CardHeader title="Location" subtitle="Search, or tap the map to drop the pin exactly where the chargers are." />
         <div className="px-5 pb-5 grid md:grid-cols-2 gap-4">

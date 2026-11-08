@@ -27,18 +27,18 @@ function stationIcon(s: Station, selected: boolean) {
   const tone = stationTone(s);
   const label = s.comingSoon ? 'Soon' : s.maxPowerKw >= 1 ? `${Math.round(s.maxPowerKw)}` : '';
   const score = s.reliability?.score;
-  const scoreHtml = score != null && !s.comingSoon ? `<span class="vw-score">${score.toFixed(1)}</span>` : '';
+  const scoreHtml = score != null && !s.comingSoon ? `<span class="wt-score">${score.toFixed(1)}</span>` : '';
   return L.divIcon({
-    className: 'vw-marker',
-    html: `<div class="vw-pin${selected ? ' selected' : ''}${s.comingSoon ? ' soon' : ''}" style="background:${s.comingSoon ? '#64748b' : tone.hex}">${BOLT}<span>${label}</span>${scoreHtml}</div>`,
+    className: 'wt-marker',
+    html: `<div class="wt-pin${selected ? ' selected' : ''}${s.comingSoon ? ' soon' : ''}" style="background:${s.comingSoon ? '#64748b' : tone.hex}">${BOLT}<span>${label}</span>${scoreHtml}</div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
   });
 }
 
-const userIcon = L.divIcon({ className: 'vw-marker', html: '<div class="vw-user" style="transform:translate(-50%,-50%)"></div>', iconSize: [0, 0] });
-const endpointIcon = L.divIcon({ className: 'vw-marker', html: '<div class="vw-endpoint" style="transform:translate(-50%,-50%)"></div>', iconSize: [0, 0] });
-const stopIcon = (n: string) => L.divIcon({ className: 'vw-marker', html: `<div class="vw-stop" style="transform:translate(-50%,-50%)">${n}</div>`, iconSize: [0, 0] });
+const userIcon = L.divIcon({ className: 'wt-marker', html: '<div class="wt-user" style="transform:translate(-50%,-50%)"></div>', iconSize: [0, 0] });
+const endpointIcon = L.divIcon({ className: 'wt-marker', html: '<div class="wt-endpoint" style="transform:translate(-50%,-50%)"></div>', iconSize: [0, 0] });
+const stopIcon = (n: string) => L.divIcon({ className: 'wt-marker', html: `<div class="wt-stop" style="transform:translate(-50%,-50%)">${n}</div>`, iconSize: [0, 0] });
 
 function Events({ onMove, onClick }: { onMove?: (bbox: [number, number, number, number], center: { lat: number; lng: number }, zoom: number) => void; onClick?: (p: { lat: number; lng: number }) => void }) {
   const map = useMapEvents({

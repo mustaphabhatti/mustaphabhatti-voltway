@@ -1,12 +1,12 @@
 import { SignJWT, jwtVerify } from 'jose';
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import type { Role } from '@voltway/shared';
+import type { Role } from '@wattly/shared';
 import { config } from '../config';
 import { one } from '../db';
 import { forbidden, unauthorized } from './errors';
 
 const secret = new TextEncoder().encode(config.jwtSecret);
-export const SESSION_COOKIE = 'vw_session';
+export const SESSION_COOKIE = 'wt_session';
 const SESSION_TTL_DAYS = 14;
 
 export interface AuthUser {
